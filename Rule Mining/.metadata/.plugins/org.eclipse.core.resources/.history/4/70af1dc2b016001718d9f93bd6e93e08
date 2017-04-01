@@ -1,0 +1,9 @@
+package mining.rule;
+
+public class DataRef {
+	public String attrRef[] = new String[17];
+	DataRef() {
+		attrRef[0] = "handicapped-infants";
+		
+	}
+}
