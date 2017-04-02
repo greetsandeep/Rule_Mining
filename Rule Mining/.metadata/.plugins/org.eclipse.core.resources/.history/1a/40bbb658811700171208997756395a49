@@ -1,0 +1,27 @@
+package mining.rule;
+
+public class DataRef {
+	/** An array of Strings which store the corresponding preference of the candidate given the index number*/
+	public String attrRef[] = new String[32];
+	/**
+	 * The constructor of the class where we declare all the stands that a candidate hass taken  
+	 */
+	DataRef() {
+		attrRef[0]  = "handicapped-infants";
+		attrRef[2]  = "water-project-cost-sharing";
+		attrRef[4]  = "adoption-of-the-budget-resolution";
+		attrRef[6]  = "physician-fee-freeze";
+		attrRef[8]  = "el-salvador-aid";
+		attrRef[10]  = "religious-groups-in-schools";
+		attrRef[12]  = "anti-satellite-test-ban";
+		attrRef[14]  = "aid-to-nicaraguan-contras";
+		attrRef[16]  = "mx-missile";
+		attrRef[18]  = "immigration";
+		attrRef[20] = "synfuels-corporation-cutback";
+		attrRef[22] = "education-spending";
+		attrRef[24] = "superfund-right-to-sue";
+		attrRef[26] = "crime";
+		attrRef[28] = "duty-free-exports";
+		attrRef[30] = "export-administration-act-south-africa";
+	}
+}
