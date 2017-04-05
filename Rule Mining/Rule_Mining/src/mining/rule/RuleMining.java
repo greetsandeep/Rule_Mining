@@ -5,7 +5,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
+
+import javax.lang.model.type.ArrayType;
 
 /**
  * @author Sandeep,Snehal,Poojitha
@@ -22,6 +25,12 @@ public class RuleMining {
 			System.out.println("Error In file Reading " + e);
 		}
 		
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter The Value for Minimum Support:\n");
+		double minSupport = in.nextDouble();
+		System.out.println("Enter The value for Minimum Confidence:\n");
+		double minConfidence = in.nextDouble();
+		
 		
 //		for(int i = 0;i<17;i++)
 //		{
@@ -35,8 +44,12 @@ public class RuleMining {
 //			System.out.println(i+" "+count);
 //		}
 		
+		DataRef dref = new DataRef();
+		/** Contains all the one Frequent Items based on the given minimum Support Value*/
+		ArrayList<Integer> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		
-		handleMissingValues(data);
+		
+		in.close();
 	}
 
 	/**
@@ -81,13 +94,6 @@ public class RuleMining {
 	}
 	
 	/**
-	 * @param data The Array List of Integers in which we have stored data for each candidate
-	 * This function replaces the '?' i.e. the missing values, with suitable values
-	 */
-	public static void handleMissingValues(ArrayList<int[]> data){
-	}
-	
-	/**
 	 * @param row the row which we created after reading in the data
 	 * @return a row with binarized categorical data. The attribute corresponding to the data can be found in DataRef Class
 	 */
@@ -109,7 +115,6 @@ public class RuleMining {
 		ans[32] = row[row.length-1];
 		//printArray(row);
 		//printArray(ans);
-		System.out.println("*******");
 		return ans;
 	}
 	
@@ -121,5 +126,34 @@ public class RuleMining {
 		for(int i=0;i<row.length;i++)
 			System.out.print(row[i]+" ");
 		System.out.println();
+	}
+	public static void printArray(double []row){
+		for(int i=0;i<row.length;i++)
+			System.out.print(row[i]+" ");
+		System.out.println();
+	}
+	
+	public static ArrayList<Integer> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
+		ArrayList<Integer> frequent = new ArrayList<Integer>();
+		int vectorLen = data.get(0).length;
+		double supportValues[] = new double[vectorLen];
+		for(int i = 0; i < data.size();i++)
+		{
+			for(int j = 0;j<vectorLen;j++)
+			{
+				if(data.get(i)[j]==1)
+					supportValues[j]++;
+			}
+		}
+
+		for(int i=0; i< supportValues.length;i++)
+			supportValues[i] = supportValues[i]/data.size();
+		
+		for(int i=0;i< supportValues.length;i++)
+		{
+			if(supportValues[i]>=minSupport)
+				frequent.add(i);
+		}
+		return frequent;
 	}
 }

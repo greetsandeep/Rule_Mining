@@ -20,6 +20,11 @@
 		<item value="/home/sandeep/Desktop/Assignments/Data Mining/Assignment-1/Rule Mining/Rule_Mining/doc" key="destdir"/>
 		<item value="false" key="openinbrowser"/>
 		<section name="projects">
+			<section name="Rule_Mining">
+				<item value="/home/sandeep/Desktop/Assignments/Data Mining/Assignment-1/Rule Mining/Rule_Mining/javadoc.xml" key="antpath"/>
+				<item value="/home/sandeep/Desktop/Assignments/Data Mining/Assignment-1/Rule Mining/Rule_Mining/doc" key="destdir"/>
+				<item value="" key="href"/>
+			</section>
 		</section>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
