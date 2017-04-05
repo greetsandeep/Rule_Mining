@@ -47,7 +47,8 @@ public class RuleMining {
 		DataRef dref = new DataRef();
 		/** Contains all the one Frequent Items based on the given minimum Support Value*/
 		ArrayList<Integer> oneFreq = oneFrequentItemSet(data,dref,minSupport);
-		
+		for(int i=0;i<oneFreq.size();i++)
+			System.out.println(dref.attrRef[i]);
 		
 		in.close();
 	}
@@ -98,9 +99,9 @@ public class RuleMining {
 	 * @return a row with binarized categorical data. The attribute corresponding to the data can be found in DataRef Class
 	 */
 	public static int[] expand(int row[]){
-		int ans[] = new int[33];
+		int ans[] = new int[34];
 		int j = 0;
-		for(int i=0;i<row.length-1;i++)
+		for(int i=0;i<row.length;i++)
 		{
 			if(row[i]==1)
 			{
@@ -112,7 +113,6 @@ public class RuleMining {
 			}
 			j = j+2;
 		}
-		ans[32] = row[row.length-1];
 		//printArray(row);
 		//printArray(ans);
 		return ans;
@@ -145,7 +145,20 @@ public class RuleMining {
 					supportValues[j]++;
 			}
 		}
-
+		
+		/** To check how many values belong to one category*/
+		for(int i=0; i<supportValues.length;i++)
+			System.out.println(dref.attrRef[i]+" "+supportValues[i]);
+		
+		System.out.println("******");
+		
+		
+		/** To See how many are missing*/
+		for(int i=0;i<supportValues.length;i=i+2)
+		{
+			System.out.println(dref.attrRef[i].substring(0,dref.attrRef[i].length()-1)+(435-(supportValues[i]+supportValues[i+1])));
+		}
+		System.out.println("*'*'*'*'");
 		for(int i=0; i< supportValues.length;i++)
 			supportValues[i] = supportValues[i]/data.size();
 		

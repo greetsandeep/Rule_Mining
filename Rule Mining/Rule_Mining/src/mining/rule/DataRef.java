@@ -2,7 +2,7 @@ package mining.rule;
 
 public class DataRef {
 	/** An array of Strings which store the corresponding preference of the candidate given the index number*/
-	public String attrRef[] = new String[32];
+	public String attrRef[] = new String[34];
 	/**
 	 * The constructor of the class where we declare all the stands that a candidate hass taken  
 	 */
@@ -39,5 +39,7 @@ public class DataRef {
 		attrRef[29]  = "duty-free-exports=y";
 		attrRef[30]  = "export-administration-act-south-africa=n";
 		attrRef[31]  = "export-administration-act-south-africa=y";
+		attrRef[32]  = "democrat";
+		attrRef[33]  = "republican";
 	}
 }
