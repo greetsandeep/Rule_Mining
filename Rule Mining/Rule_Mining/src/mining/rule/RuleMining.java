@@ -27,15 +27,15 @@ public class RuleMining {
 		DataRef dref = new DataRef();
 		
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
-		Set<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
+		ArrayList<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		
-		Iterator iter = oneFreq.iterator();
-		while (iter.hasNext()) {
-		    System.out.print(iter.next());
-		}
+//		Iterator<Set<Integer>> iter = oneFreq.iterator();
+//		while (iter.hasNext()) {
+//		    System.out.print(iter.next());
+//		}
 		
 		setRepresentation(data);
-		kminus1tok(oneFreq);
+		kminus1tok(oneFreq,2);
 		in.close();
 	}
 
@@ -125,8 +125,8 @@ public class RuleMining {
 	 * @param minSupport The Support Threshold
 	 * @return The ArrayList which contains all sets of 1-frequent items corresponding to the minimum Support Threshold
 	 */
-	public static Set<Set<Integer>> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
-		Set<Set<Integer>> frequent = new HashSet<Set<Integer>>();
+	public static ArrayList<Set<Integer>> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
+		ArrayList<Set<Integer>> frequent = new ArrayList<Set<Integer>>();
 		int vectorLen = data.get(0).length;
 		double supportValues[] = new double[vectorLen];
 		for(int i = 0; i < data.size();i++)
@@ -170,8 +170,8 @@ public class RuleMining {
 	 * @param data The data in the binary format
 	 * @return The set representation of the voting patterns.
 	 */
-	public static ArrayList<HashSet<Integer>> setRepresentation(ArrayList<int[]> data){
-		ArrayList<HashSet<Integer>> data_rept = new ArrayList<HashSet<Integer>>();
+	public static ArrayList<Set<Integer>> setRepresentation(ArrayList<int[]> data){
+		ArrayList<Set<Integer>> data_rept = new ArrayList<Set<Integer>>();
 		for(int i=0;i<data.size();i++)
 		{
 			HashSet<Integer> temp = new HashSet<Integer>();
@@ -196,9 +196,20 @@ public class RuleMining {
 	 * @param sets All K-1 dimension sets
 	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
 	 */
-	public static ArrayList<Set<Set<Integer>>> kminus1tok(Set<Set<Integer>> sets){
-		ArrayList<Set<Set<Integer>>> itemsets = new ArrayList<Set<Set<Integer>>>();
+	public static ArrayList<ArrayList<Set<Integer>>> kminus1tok(ArrayList<Set<Integer>> sets,int k){
+		ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
+		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
 		
+		for(int i=0;i<sets.size();i++)
+		{
+			for(int j=i+1;j<sets.size();j++)
+			{
+				Set<Integer> candidate = new HashSet(sets.get(i));
+				candidate.addAll(sets.get(j));
+				temp.add(candidate);
+			}
+		}
+		itemsets.add(k,temp);
 		return itemsets;
 	}
 }		
