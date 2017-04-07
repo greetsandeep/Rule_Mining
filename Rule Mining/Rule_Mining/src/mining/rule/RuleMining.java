@@ -10,6 +10,7 @@ import java.util.*;
 public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
+	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
 	
 	public static void main(String args[]){
 		try{
@@ -158,7 +159,7 @@ public class RuleMining {
 		{
 			if(supportValues[i]>=minSupport)
 			{
-				Set<Integer> temp = new HashSet<Integer>();
+				Set<Integer> temp = new TreeSet<Integer>();
 				temp.add(i);
 				frequent.add(temp);
 			}
@@ -174,7 +175,7 @@ public class RuleMining {
 		ArrayList<Set<Integer>> data_rept = new ArrayList<Set<Integer>>();
 		for(int i=0;i<data.size();i++)
 		{
-			HashSet<Integer> temp = new HashSet<Integer>();
+			Set<Integer> temp = new TreeSet<Integer>();
 			for(int j=0;j<data.get(0).length;j++)
 			{
 				if(data.get(i)[j]==1)
@@ -196,21 +197,37 @@ public class RuleMining {
 	 * @param sets All K-1 dimension sets
 	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
 	 */
-	public static ArrayList<ArrayList<Set<Integer>>> kminus1tok(ArrayList<Set<Integer>> sets){
-		ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
+	public static void kminus1tok(ArrayList<Set<Integer>> sets){
+		
+			
 		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
+		
+		TreeSet<Integer> candidate = new TreeSet<Integer>();
+		TreeSet<Integer> toMerge = new TreeSet<Integer>();
 		
 		for(int i=0;i<sets.size();i++)
 		{
 			for(int j=i+1;j<sets.size();j++)
 			{
-				Set<Integer> candidate = new HashSet(sets.get(i));
-				candidate.addAll(sets.get(j));
-				if(candidate.size()==sets.get(i).size()+1)
-						temp.add(candidate);
+				candidate.clear();
+				candidate.addAll(sets.get(i));
+				int lastI = candidate.last();
+				candidate.remove(lastI);
+				toMerge.addAll(sets.get(j));
+				int lastJ = toMerge.last();
+				toMerge.remove(lastJ);
+				candidate.addAll(toMerge);
+				if(candidate.size()==toMerge.size()){
+					candidate.add(lastI);
+					candidate.add(lastJ);
+					temp.add(candidate);
+					
+				}
+				
 			}
+						
 		}
+		
 		itemsets.add(temp);
-		return itemsets;
 	}
 }		
