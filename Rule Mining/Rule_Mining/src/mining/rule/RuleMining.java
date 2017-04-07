@@ -1,15 +1,7 @@
 package mining.rule;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.StringTokenizer;
-
-import javax.lang.model.type.ArrayType;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author Sandeep,Snehal,Poojitha
@@ -32,26 +24,18 @@ public class RuleMining {
 		System.out.println("Enter The value for Minimum Confidence:\n");
 		double minConfidence = in.nextDouble();
 		
-		
-//		for(int i = 0;i<17;i++)
-//		{
-//			int count = 0;
-//			for(int j = 0;j<data.size();j++)
-//			{
-//				int temp[] = data.get(j);
-//				if(temp[i]==-1)
-//					count++;
-//			}
-//			System.out.println(i+" "+count);
-//		}
-		
 		DataRef dref = new DataRef();
-		/** Contains all the one Frequent Items based on the given minimum Support Value*/
-		ArrayList<Integer> oneFreq = oneFrequentItemSet(data,dref,minSupport);
-		for(int i=0;i<oneFreq.size();i++)
-			System.out.println(dref.attrRef[i]);
-				
+		
+		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
+		Set<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
+		
+		Iterator iter = oneFreq.iterator();
+		while (iter.hasNext()) {
+		    System.out.print(iter.next());
+		}
+		
 		setRepresentation(data);
+		kminus1tok(oneFreq);
 		in.close();
 	}
 
@@ -139,10 +123,10 @@ public class RuleMining {
 	 * @param data The data in the binary format
 	 * @param dref The class which stores the text corresponding to the the index value
 	 * @param minSupport The Support Threshold
-	 * @return The 1-frequent items corresponding to the minimum Support Threshold
+	 * @return The ArrayList which contains all sets of 1-frequent items corresponding to the minimum Support Threshold
 	 */
-	public static ArrayList<Integer> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
-		ArrayList<Integer> frequent = new ArrayList<Integer>();
+	public static Set<Set<Integer>> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
+		Set<Set<Integer>> frequent = new HashSet<Set<Integer>>();
 		int vectorLen = data.get(0).length;
 		double supportValues[] = new double[vectorLen];
 		for(int i = 0; i < data.size();i++)
@@ -173,7 +157,11 @@ public class RuleMining {
 		for(int i=0;i< supportValues.length;i++)
 		{
 			if(supportValues[i]>=minSupport)
-				frequent.add(i);
+			{
+				Set<Integer> temp = new HashSet<Integer>();
+				temp.add(i);
+				frequent.add(temp);
+			}
 		}
 		return frequent;
 	}
@@ -202,4 +190,15 @@ public class RuleMining {
 		
 		return data_rept;
 	}
-}
+	
+	
+	/**
+	 * @param sets All K-1 dimension sets
+	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
+	 */
+	public static ArrayList<Set<Set<Integer>>> kminus1tok(Set<Set<Integer>> sets){
+		ArrayList<Set<Set<Integer>>> itemsets = new ArrayList<Set<Set<Integer>>>();
+		
+		return itemsets;
+	}
+}		
