@@ -1,11 +1,12 @@
-
 package mining.rule;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.lang.model.type.ArrayType;
@@ -49,7 +50,8 @@ public class RuleMining {
 		ArrayList<Integer> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		for(int i=0;i<oneFreq.size();i++)
 			System.out.println(dref.attrRef[i]);
-		
+				
+		setRepresentation(data);
 		in.close();
 	}
 
@@ -133,6 +135,12 @@ public class RuleMining {
 		System.out.println();
 	}
 	
+	/**
+	 * @param data The data in the binary format
+	 * @param dref The class which stores the text corresponding to the the index value
+	 * @param minSupport The Support Threshold
+	 * @return The 1-frequent items corresponding to the minimum Support Threshold
+	 */
 	public static ArrayList<Integer> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
 		ArrayList<Integer> frequent = new ArrayList<Integer>();
 		int vectorLen = data.get(0).length;
@@ -168,5 +176,30 @@ public class RuleMining {
 				frequent.add(i);
 		}
 		return frequent;
+	}
+	
+	/**
+	 * @param data The data in the binary format
+	 * @return The set representation of the voting patterns.
+	 */
+	public static ArrayList<HashSet<Integer>> setRepresentation(ArrayList<int[]> data){
+		ArrayList<HashSet<Integer>> data_rept = new ArrayList<HashSet<Integer>>();
+		for(int i=0;i<data.size();i++)
+		{
+			HashSet<Integer> temp = new HashSet<Integer>();
+			for(int j=0;j<data.get(0).length;j++)
+			{
+				if(data.get(i)[j]==1)
+					temp.add(j);
+			}
+			data_rept.add(temp);
+		}
+		
+//		for(int i=0;i<data_rept.size();i++)
+//		{
+//			System.out.println(data_rept.get(i));
+//		}
+		
+		return data_rept;
 	}
 }
