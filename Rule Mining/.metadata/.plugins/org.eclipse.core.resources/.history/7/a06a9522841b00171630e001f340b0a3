@@ -29,13 +29,13 @@ public class RuleMining {
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		
-		Iterator<Set<Integer>> iter = oneFreq.iterator();
-		while (iter.hasNext()) {
-		    System.out.print(iter.next());
-		}
+//		Iterator<Set<Integer>> iter = oneFreq.iterator();
+//		while (iter.hasNext()) {
+//		    System.out.print(iter.next());
+//		}
 		
 		setRepresentation(data);
-		kminus1tok(oneFreq.sort(oneFreq);,2);
+		kminus1tok(oneFreq,2);
 		in.close();
 	}
 
@@ -202,8 +202,14 @@ public class RuleMining {
 		
 		for(int i=0;i<sets.size();i++)
 		{
-			
+			for(int j=i+1;j<sets.size();j++)
+			{
+				Set<Integer> candidate = new HashSet(sets.get(i));
+				candidate.addAll(sets.get(j));
+				temp.add(candidate);
+			}
 		}
+		itemsets.add(k,temp);
 		return itemsets;
 	}
 }		

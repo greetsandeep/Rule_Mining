@@ -35,7 +35,7 @@ public class RuleMining {
 //		}
 		
 		setRepresentation(data);
-		kminus1tok(oneFreq,2);
+		kminus1tok(oneFreq);
 		in.close();
 	}
 
@@ -196,7 +196,7 @@ public class RuleMining {
 	 * @param sets All K-1 dimension sets
 	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
 	 */
-	public static ArrayList<ArrayList<Set<Integer>>> kminus1tok(ArrayList<Set<Integer>> sets,int k){
+	public static ArrayList<ArrayList<Set<Integer>>> kminus1tok(ArrayList<Set<Integer>> sets){
 		ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
 		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
 		
@@ -206,10 +206,11 @@ public class RuleMining {
 			{
 				Set<Integer> candidate = new HashSet(sets.get(i));
 				candidate.addAll(sets.get(j));
-				temp.add(candidate);
+				if(candidate.size()==sets.get(i).size()+1)
+						temp.add(candidate);
 			}
 		}
-		itemsets.add(k,temp);
+		itemsets.add(temp);
 		return itemsets;
 	}
 }		
