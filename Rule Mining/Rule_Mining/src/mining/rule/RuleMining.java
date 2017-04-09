@@ -11,6 +11,7 @@ public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
 	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
+	public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 	
 	public static void main(String args[]){
 		try{
@@ -35,7 +36,17 @@ public class RuleMining {
 //		    System.out.print(iter.next());
 //		}
 		
-		setRepresentation(data);
+		ArrayList<ArrayList<Integer>> refined = attributeRepresentation(data);
+		//System.out.println(refined.get(0).size());
+		 
+		RuleMining ref = new RuleMining();
+		/** One transaction taken here for example **/
+		ref.tranBreakdown(refined.get(0),3);
+		System.out.println("Transaction: "+refined.get(0));
+		//System.out.println(sub.size());
+		for(int i =0;i<sub.size();i++){
+			System.out.println(sub.get(i));
+		}
 		kminus1tok(oneFreq);
 		in.close();
 	}
@@ -171,15 +182,16 @@ public class RuleMining {
 	 * @param data The data in the binary format
 	 * @return The set representation of the voting patterns.
 	 */
-	public static ArrayList<Set<Integer>> setRepresentation(ArrayList<int[]> data){
-		ArrayList<Set<Integer>> data_rept = new ArrayList<Set<Integer>>();
+	public static ArrayList<ArrayList<Integer>> attributeRepresentation(ArrayList<int[]> data){
+		ArrayList<ArrayList<Integer>> data_rept = new ArrayList<ArrayList<Integer>>();
 		for(int i=0;i<data.size();i++)
 		{
-			Set<Integer> temp = new TreeSet<Integer>();
+			ArrayList<Integer> temp = new ArrayList<Integer>();
 			for(int j=0;j<data.get(0).length;j++)
 			{
-				if(data.get(i)[j]==1)
+				if(data.get(i)[j]==1)					
 					temp.add(j);
+									
 			}
 			data_rept.add(temp);
 		}
@@ -229,5 +241,31 @@ public class RuleMining {
 		}
 		
 		itemsets.add(temp);
+	}
+	
+	
+	public  void tranBreakdown (ArrayList<Integer> transaction, int k){
+		//ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
+		int len = transaction.size();
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		this.breakdown(transaction,temp,0,len-1,0,k);
+		
+	}
+	
+	public void breakdown(ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
+		if(point==k){
+			ArrayList<Integer> copy = new ArrayList<Integer>();
+			for(int i = 0;i<temp.size();i++){
+				copy.add(temp.get(i));
+			}
+			sub.add(copy);
+			return;
+		}	
+		for(int i=low; (i <= high) && (high-i+1 >= k-point); i++ ){
+			temp.add(point,trans.get(i));
+			this.breakdown(trans,temp,i+1,high,point+1,k);
+			temp.remove(point);
+			
+		}
 	}
 }		
