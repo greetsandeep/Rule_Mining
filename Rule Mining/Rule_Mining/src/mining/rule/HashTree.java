@@ -29,7 +29,7 @@ public class HashTree {
 		else{
 			System.out.println(itemset.last());
 			HashTree node = this;
-			TreeSet copy = new TreeSet<Integer>(itemset);
+			TreeSet<Integer> copy = new TreeSet<Integer>(itemset);
 			while(itemset.size()>0){
 				int h = itemset.first();
 				itemset.remove(h);

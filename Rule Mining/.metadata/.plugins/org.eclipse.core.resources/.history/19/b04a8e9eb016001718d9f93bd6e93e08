@@ -1,5 +1,0 @@
-package mining.rule;
-
-public class DataRef {
-	public String attrRef[] = new String[17]
-}

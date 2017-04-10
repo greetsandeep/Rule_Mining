@@ -3,6 +3,8 @@ package mining.rule;
 import java.io.*;
 import java.util.*;
 
+import org.omg.CORBA.TRANSACTION_MODE;
+
 /**
  * @author Sandeep,Snehal,Poojitha
  *	AIM : To Use hash tree and come up with interesting association rules by using apriori algorithm.
@@ -11,64 +13,63 @@ public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
 	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
-	public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
-	
+	//public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
+
 	public static void main(String args[]){
 		try{
 			inputHandle("dataFile.txt",data);
 		}catch(Exception e){
 			System.out.println("Error In file Reading " + e);
 		}
-		
+
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter The Value for Minimum Support:\n");
 		double minSupport = in.nextDouble();
 		System.out.println("Enter The value for Minimum Confidence:\n");
 		double minConfidence = in.nextDouble();
-		
+
 		DataRef dref = new DataRef();
-		
+
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
-		
-//		Iterator<Set<Integer>> iter = oneFreq.iterator();
-//		while (iter.hasNext()) {
-//		    System.out.print(iter.next());
-//		}
-		
+		itemsets.add(0,oneFreq);
+
 		ArrayList<ArrayList<Integer>> refined = attributeRepresentation(data);
-		//System.out.println(refined.get(0).size());
-		 
+
 		RuleMining ref = new RuleMining();
 		/** One transaction taken here for example **/
-//		ref.tranBreakdown(refined.get(0),3);
-//		System.out.println("Transaction: "+refined.get(0));
-//		System.out.println(sub.size());
-//		for(int i =0;i<sub.size();i++){
-//			System.out.println(sub.get(i));
-//		}
-		kminus1tok(oneFreq);
-		HashTree root = new HashTree(3,0);
-		TreeSet<Integer> test = new TreeSet<Integer>();
-		test.add(1);
-		test.add(4);
-		test.add(7);
-		boolean status = root.hashItemset(test);
-		test.clear();
-		test.add(1);
-		test.add(4);
-		test.add(10);
-		status = root.hashItemset(test);
-		test.clear();
-		test.add(1);
-		test.add(4);
-		test.add(13);
-		status = root.hashItemset(test);
-		test.clear();
-		test.add(1);
-		test.add(4);
-		test.add(16);
-		status = root.hashItemset(test);
+
+		//		ref.tranBreakdown(refined.get(0),3);
+		//		System.out.println("Transaction: "+refined.get(0));
+		//		System.out.println(sub.size());
+		//		for(int i =0;i<sub.size();i++){
+		//			System.out.println(sub.get(i));
+		//		}
+
+		kminus1tok(oneFreq,1);
+
+		//		HashTree root = new HashTree(3,0);
+		//		TreeSet<Integer> test = new TreeSet<Integer>();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(7);
+		//		boolean status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(10);
+		//		status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(13);
+		//		status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(16);
+		//		status = root.hashItemset(test);
+
 		in.close();
 	}
 
@@ -90,12 +91,12 @@ public class RuleMining {
 					row[i] = getInt(st.nextToken());
 				}
 			}
-			
+
 			data.add(expand(row));
 		}       
 		br.close();
 	}
-	
+
 	/**
 	 * @param dataField The string from the input. Can be a 'y','n','republican','democrat', or ?
 	 * @return An integer corresponding to the the input. y : 1 \n n : 1\n republican: 1\n democrat: 0\n ?: -1 
@@ -112,7 +113,7 @@ public class RuleMining {
 		else 
 			return 0;
 	}
-	
+
 	/**
 	 * @param row the row which we created after reading in the data
 	 * @return a row with binarized categorical data. The attribute corresponding to the data can be found in DataRef Class
@@ -132,11 +133,9 @@ public class RuleMining {
 			}
 			j = j+2;
 		}
-		//printArray(row);
-		//printArray(ans);
 		return ans;
 	}
-	
+
 	/**
 	 * @param row the row which we want to print
 	 * An utility function that prints the passed array
@@ -151,7 +150,7 @@ public class RuleMining {
 			System.out.print(row[i]+" ");
 		System.out.println();
 	}
-	
+
 	/**
 	 * @param data The data in the binary format
 	 * @param dref The class which stores the text corresponding to the the index value
@@ -170,23 +169,10 @@ public class RuleMining {
 					supportValues[j]++;
 			}
 		}
-		
-		/** To check how many values belong to one category*/
-		for(int i=0; i<supportValues.length;i++)
-			System.out.println(dref.attrRef[i]+" "+supportValues[i]);
-		
-		System.out.println("******");
-		
-		
-		/** To See how many are missing*/
-		for(int i=0;i<supportValues.length;i=i+2)
-		{
-			System.out.println(dref.attrRef[i].substring(0,dref.attrRef[i].length()-1)+(435-(supportValues[i]+supportValues[i+1])));
-		}
-		System.out.println("*'*'*'*'");
+
 		for(int i=0; i< supportValues.length;i++)
 			supportValues[i] = supportValues[i]/data.size();
-		
+
 		for(int i=0;i< supportValues.length;i++)
 		{
 			if(supportValues[i]>=minSupport)
@@ -198,7 +184,7 @@ public class RuleMining {
 		}
 		return frequent;
 	}
-	
+
 	/**
 	 * @param data The data in the binary format
 	 * @return The set representation of the voting patterns.
@@ -212,37 +198,29 @@ public class RuleMining {
 			{
 				if(data.get(i)[j]==1)					
 					temp.add(j);
-									
+
 			}
 			data_rept.add(temp);
 		}
-		
-//		for(int i=0;i<data_rept.size();i++)
-//		{
-//			System.out.println(data_rept.get(i));
-//		}
-		
+
 		return data_rept;
 	}
-	
-	
+
+
 	/**
 	 * @param sets All K-1 dimension sets
 	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
 	 */
-	public static void kminus1tok(ArrayList<Set<Integer>> sets){
-		
-			
+	public static void kminus1tok(ArrayList<Set<Integer>> sets,int k){
+
 		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
-		
 		TreeSet<Integer> candidate = new TreeSet<Integer>();
 		TreeSet<Integer> toMerge = new TreeSet<Integer>();
-		
 		for(int i=0;i<sets.size();i++)
 		{
 			for(int j=i+1;j<sets.size();j++)
 			{
-				candidate.clear();
+				candidate = new TreeSet<Integer>();
 				candidate.addAll(sets.get(i));
 				int lastI = candidate.last();
 				candidate.remove(lastI);
@@ -250,30 +228,77 @@ public class RuleMining {
 				int lastJ = toMerge.last();
 				toMerge.remove(lastJ);
 				candidate.addAll(toMerge);
-				if(candidate.size()==toMerge.size()){
+				if(candidate.size()==toMerge.size())
+				{
 					candidate.add(lastI);
 					candidate.add(lastJ);
 					temp.add(candidate);
-					
 				}
-				
-			}
-						
+			}		
 		}
 		
-		itemsets.add(temp);
+		itemsets.add(k,prepruning(temp,k));
 	}
 	
+	public static ArrayList<Set<Integer>> prepruning(ArrayList<Set<Integer>> kfrequent,int k){
+		ArrayList<Set<Integer>> finalKfrequent = new ArrayList<Set<Integer>>();
+		ArrayList<Set<Integer>> kminus1 = itemsets.get(k-1);
+		for(int i=0;i<kfrequent.size();i++)
+		{
+			int tem[] = toInt(kfrequent.get(i));
+			int flag = 1;
+			for(int j=0;j<tem.length-1;j++)
+			{
+				if(tem[j]%2==0 && tem[j+1] == tem[j]+1)
+				{
+					flag = 0;
+					break;
+				}
+			}
+			
+			if(flag==1)
+			{
+				ArrayList<Integer> al_kfruent = new ArrayList<Integer>();
+				for (int index = 0; index < tem.length; index++)
+				    al_kfruent.add(tem[index]);
+				ArrayList<ArrayList<Integer>> kminus1cand = tranBreakdown(al_kfruent,k-1);
+				for(int p=0;p<kminus1cand.size();p++)
+				{
+					TreeSet<Integer> tempSet = new TreeSet<>(kminus1cand.get(p));
+					if(!kminus1.contains(tempSet))
+					{
+						flag = 0;
+						break;
+					}
+				}
+			}
+			if(flag==1)
+			{
+				TreeSet<Integer> toBeConsidered = new TreeSet<>();
+				for(int s=0;s<tem.length;s++)
+					toBeConsidered.add(tem[s]);
+				finalKfrequent.add(toBeConsidered);
+			}
+		}
+		return finalKfrequent;
+	}
 	
-	public  void tranBreakdown (ArrayList<Integer> transaction, int k){
-		//ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
+	public static int[] toInt(Set<Integer> set) {
+		  int[] a = new int[set.size()];
+		  int i = 0;
+		  for (Integer val : set) a[i++] = val;
+		  return a;
+	}
+	
+	public static ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
+		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 		int len = transaction.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
-		this.breakdown(transaction,temp,0,len-1,0,k);
-		
+		breakdown(sub,transaction,temp,0,len-1,0,k);
+		return sub;
 	}
-	
-	public void breakdown(ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
+
+	public static void breakdown(ArrayList<ArrayList<Integer>> sub,ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
 			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for(int i = 0;i<temp.size();i++){
@@ -284,9 +309,9 @@ public class RuleMining {
 		}	
 		for(int i=low; (i <= high) && (high-i+1 >= k-point); i++ ){
 			temp.add(point,trans.get(i));
-			this.breakdown(trans,temp,i+1,high,point+1,k);
+			breakdown(sub,trans,temp,i+1,high,point+1,k);
 			temp.remove(point);
-			
+
 		}
 	}
 }		

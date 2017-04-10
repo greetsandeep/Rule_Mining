@@ -1,8 +1,0 @@
-package mining.rule;
-
-public class DataRef {
-	public String attrRef[] = new String[17];
-	public DataRef() {
-		// TODO Auto-generated constructor stub
-	}
-}

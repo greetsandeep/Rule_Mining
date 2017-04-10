@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_bulcURBDEeeHGeMkF9NDRg" elementId="org.eclipse.e4.legacy.ide.application" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_bulcUhBDEeeHGeMkF9NDRg" bindingContexts="_bumDYBBDEeeHGeMkF9NDRg">
-  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workbench>&#xA;&lt;mruList>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;DataRef.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/DataRef.java&quot;>&#xA;&lt;persistable path=&quot;/Rule_Mining/src/mining/rule/DataRef.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;RuleMining.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/RuleMining.java&quot;>&#xA;&lt;persistable path=&quot;/Rule_Mining/src/mining/rule/RuleMining.java&quot;/>&#xA;&lt;/file>&#xA;&lt;/mruList>&#xA;&lt;/workbench>"/>
+  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workbench>&#xA;&lt;mruList>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;DataRef.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/DataRef.java&quot;>&#xA;&lt;persistable path=&quot;/Rule_Mining/src/mining/rule/DataRef.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;HashTree.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/HashTree.java&quot;>&#xA;&lt;persistable path=&quot;/Rule_Mining/src/mining/rule/HashTree.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;RuleMining.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/RuleMining.java&quot;>&#xA;&lt;persistable path=&quot;/Rule_Mining/src/mining/rule/RuleMining.java&quot;/>&#xA;&lt;/file>&#xA;&lt;/mruList>&#xA;&lt;/workbench>"/>
   <tags>ModelMigrationProcessor.001</tags>
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
   <children xsi:type="basic:TrimmedWindow" xmi:id="_bulcUhBDEeeHGeMkF9NDRg" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_dUuTshBDEeeHGeMkF9NDRg" label="%trimmedwindow.label.eclipseSDK" x="0" y="24" width="683" height="744">
@@ -86,7 +86,7 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_eRF1WRBDEeeHGeMkF9NDRg" elementId="org.eclipse.egit.ui.RepositoriesView" toBeRendered="false" ref="_eQ_HoBBDEeeHGeMkF9NDRg"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_eRF1WhBDEeeHGeMkF9NDRg" containerData="8074" selectedElement="_eRF1WxBDEeeHGeMkF9NDRg">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_eRF1WhBDEeeHGeMkF9NDRg" containerData="8074" selectedElement="_eRF1ZBBDEeeHGeMkF9NDRg">
               <children xsi:type="basic:PartSashContainer" xmi:id="_eRF1WxBDEeeHGeMkF9NDRg" containerData="7192" selectedElement="_eRF1XBBDEeeHGeMkF9NDRg" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_eRF1XBBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.editorss" containerData="7500" ref="_eL5zUBBDEeeHGeMkF9NDRg"/>
                 <children xsi:type="basic:PartSashContainer" xmi:id="_eRF1XRBDEeeHGeMkF9NDRg" visible="false" containerData="2500" selectedElement="_eRF1YBBDEeeHGeMkF9NDRg">
@@ -105,6 +105,8 @@
               </children>
               <children xsi:type="basic:PartStack" xmi:id="_eRF1ZBBDEeeHGeMkF9NDRg" elementId="bottom" containerData="2808" selectedElement="_eRF1aRBDEeeHGeMkF9NDRg">
                 <tags>org.eclipse.e4.secondaryDataStack</tags>
+                <tags>active</tags>
+                <tags>noFocus</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_eRF1ZRBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.views.ProblemView" toBeRendered="false" ref="_eMlIwBBDEeeHGeMkF9NDRg"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_eRF1ZhBDEeeHGeMkF9NDRg" elementId="org.eclipse.jdt.ui.JavadocView" toBeRendered="false" ref="_eMlv0BBDEeeHGeMkF9NDRg"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_eRF1ZxBDEeeHGeMkF9NDRg" elementId="org.eclipse.jdt.ui.SourceView" toBeRendered="false" ref="_eMmW4BBDEeeHGeMkF9NDRg"/>
@@ -147,19 +149,9 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_eL5zUBBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.editorss" selectedElement="_eL5zURBDEeeHGeMkF9NDRg">
-      <children xsi:type="basic:PartStack" xmi:id="_eL5zURBDEeeHGeMkF9NDRg" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_WBp5IBauEeeU9rjXh_75sQ">
+      <children xsi:type="basic:PartStack" xmi:id="_eL5zURBDEeeHGeMkF9NDRg" elementId="org.eclipse.e4.primaryDataStack">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
-        <tags>active</tags>
-        <tags>noFocus</tags>
-        <children xsi:type="basic:Part" xmi:id="_WBp5IBauEeeU9rjXh_75sQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="RuleMining.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;RuleMining.java&quot; partName=&quot;RuleMining.java&quot; title=&quot;RuleMining.java&quot; tooltip=&quot;Rule_Mining/src/mining/rule/RuleMining.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Rule_Mining/src/mining/rule/RuleMining.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;5975&quot; selectionTopPixel=&quot;2773&quot;/>&#xA;&lt;/editor>"/>
-          <tags>Editor</tags>
-          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
-          <tags>removeOnHide</tags>
-          <tags>active</tags>
-          <tags>activeOnClose</tags>
-        </children>
       </children>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_eMgQQBBDEeeHGeMkF9NDRg" elementId="org.eclipse.jdt.ui.PackageExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Package Explorer" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/eview16/package.png" tooltip="" closeable="true">
@@ -238,6 +230,8 @@
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view/>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
+      <tags>active</tags>
+      <tags>activeOnClose</tags>
       <menus xmi:id="_U1X2wBavEeeU9rjXh_75sQ" elementId="org.eclipse.ui.console.ConsoleView">
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
@@ -311,13 +305,13 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_dhlrABBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BT8KYBuEEeeFC8Rht0xlYw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_bw6XzhBDEeeHGeMkF9NDRg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_Abcb8B3QEeeVPKkIRuLEKw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_bw6XzhBDEeeHGeMkF9NDRg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_dhvcABBDEeeHGeMkF9NDRg" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_dhvcARBDEeeHGeMkF9NDRg" elementId="additions" toBeRendered="false"/>
       </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_WM0AQBauEeeU9rjXh_75sQ" elementId="org.eclipse.ui.edit.text.actionSet.presentation">
+      <children xsi:type="menu:ToolBar" xmi:id="_WM0AQBauEeeU9rjXh_75sQ" elementId="org.eclipse.ui.edit.text.actionSet.presentation" visible="false">
         <tags>Draggable</tags>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ea878BBDEeeHGeMkF9NDRg" elementId="org.eclipse.debug.ui.launchActionSet">
@@ -335,7 +329,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_dhwDEhBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BUBp8BuEEeeFC8Rht0xlYw" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_bw5wkxBDEeeHGeMkF9NDRg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_AbhUcB3QEeeVPKkIRuLEKw" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_bw5wkxBDEeeHGeMkF9NDRg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_dhwqIBBDEeeHGeMkF9NDRg" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -3224,7 +3218,7 @@
   <addons xmi:id="_bumDbxBDEeeHGeMkF9NDRg" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_bumDcBBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_bvKEEBBDEeeHGeMkF9NDRg" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="__4uwoRuDEeeFC8Rht0xlYw" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_bwpR0BBDEeeHGeMkF9NDRg" elementId="org.eclipse.ui.category.edit" name="Edit"/>
   <categories xmi:id="_bwpR0RBDEeeHGeMkF9NDRg" elementId="org.eclipse.mylyn.wikitext.ui.editor.category" name="WikiText Markup Editing Commands" description="commands for editing lightweight markup"/>
