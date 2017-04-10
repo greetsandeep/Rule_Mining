@@ -261,11 +261,21 @@ public class RuleMining {
 				ArrayList<Integer> al_kfruent = new ArrayList<Integer>();
 				for (int index = 0; index < tem.length; index++)
 				    al_kfruent.add(tem[index]);
-				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k-1);
+			
+				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k);
+				
+				/*for(int idup=0;idup<sub.size();idup++){
+					
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					for(int jdup=0;jdup<sub.get(idup).size();jdup++){
+						temp.add(sub.get(idup).get(jdup));
+					}
+					kminus1cand.add(temp);
+				}*/
 				for(int p=0;p<kminus1cand.size();p++)
 				{
-					System.out.println(kminus1cand.get(p));
-					TreeSet<Integer> tempSet = new TreeSet<>(kminus1cand.get(p));
+					//System.out.println(kminus1cand.get(p));
+					TreeSet<Integer> tempSet = new TreeSet<Integer>(kminus1cand.get(p));
 					if(!kminus1.contains(tempSet))
 					{
 						flag = 0;
@@ -275,10 +285,11 @@ public class RuleMining {
 			}
 			if(flag==1)
 			{
-				TreeSet<Integer> toBeConsidered = new TreeSet<>();
+				TreeSet<Integer> toBeConsidered = new TreeSet<Integer>();
 				for(int s=0;s<tem.length;s++)
 					toBeConsidered.add(tem[s]);
 				finalKfrequent.add(toBeConsidered);
+				System.out.println(toBeConsidered.first()+" "+toBeConsidered.last());
 			}
 		}
 		return finalKfrequent;
@@ -299,7 +310,7 @@ public class RuleMining {
 		return sub;
 	}
 
-	public void breakdown(ArrayList<ArrayList<Integer>> sub,ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
+	public void breakdown(ArrayList<ArrayList<Integer>> sub, ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
 			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for(int i = 0;i<temp.size();i++){
@@ -310,9 +321,8 @@ public class RuleMining {
 		}	
 		for(int i=low; (i <= high) && (high-i+1 >= k-point); i++ ){
 			temp.add(point,trans.get(i));
-			this.breakdown(sub,trans,temp,i+1,high,point+1,k);
+			this.breakdown(sub, trans,temp,i+1,high,point+1,k);
 			temp.remove(point);
-
 		}
 	}
 }		
