@@ -3,6 +3,8 @@ package mining.rule;
 import java.io.*;
 import java.util.*;
 
+import org.omg.CORBA.TRANSACTION_MODE;
+
 /**
  * @author Sandeep,Snehal,Poojitha
  *	AIM : To Use hash tree and come up with interesting association rules by using apriori algorithm.
@@ -11,7 +13,7 @@ public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
 	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
-	public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
+	//public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 
 	public static void main(String args[]){
 		try{
@@ -256,10 +258,26 @@ public class RuleMining {
 			
 			if(flag==1)
 			{
-				for(int j=0;j<tem.length;j++)
+				ArrayList<Integer> al_kfruent = new ArrayList<Integer>();
+				for (int index = 0; index < tem.length; index++)
+				    al_kfruent.add(tem[index]);
+				ArrayList<ArrayList<Integer>> kminus1cand = tranBreakdown(al_kfruent,k-1);
+				for(int p=0;p<kminus1cand.size();p++)
 				{
-					
+					TreeSet<Integer> tempSet = new TreeSet<>(kminus1cand.get(p));
+					if(!kminus1.contains(tempSet))
+					{
+						flag = 0;
+						break;
+					}
 				}
+			}
+			if(flag==1)
+			{
+				TreeSet<Integer> toBeConsidered = new TreeSet<>();
+				for(int s=0;s<tem.length;s++)
+					toBeConsidered.add(tem[s]);
+				finalKfrequent.add(toBeConsidered);
 			}
 		}
 		return finalKfrequent;
@@ -272,15 +290,15 @@ public class RuleMining {
 		  return a;
 	}
 	
-	public  void tranBreakdown (ArrayList<Integer> transaction, int k){
-		//ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
+	public  ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
+		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 		int len = transaction.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
-		this.breakdown(transaction,temp,0,len-1,0,k);
-
+		this.breakdown(sub,transaction,temp,0,len-1,0,k);
+		return sub;
 	}
 
-	public void breakdown(ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
+	public void breakdown(ArrayList<ArrayList<Integer>> sub,ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
 			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for(int i = 0;i<temp.size();i++){
@@ -291,7 +309,7 @@ public class RuleMining {
 		}	
 		for(int i=low; (i <= high) && (high-i+1 >= k-point); i++ ){
 			temp.add(point,trans.get(i));
-			this.breakdown(trans,temp,i+1,high,point+1,k);
+			this.breakdown(sub,trans,temp,i+1,high,point+1,k);
 			temp.remove(point);
 
 		}

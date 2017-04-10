@@ -46,7 +46,7 @@ public class RuleMining {
 		//			System.out.println(sub.get(i));
 		//		}
 
-		kminus1tok(oneFreq,1);
+		kminus1tok(ref,oneFreq,1);
 
 		//		HashTree root = new HashTree(3,0);
 		//		TreeSet<Integer> test = new TreeSet<Integer>();
@@ -211,7 +211,7 @@ public class RuleMining {
 	 * @param sets All K-1 dimension sets
 	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
 	 */
-	public static void kminus1tok(ArrayList<Set<Integer>> sets,int k){
+	public static void kminus1tok(RuleMining ref,ArrayList<Set<Integer>> sets,int k){
 
 		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
 		TreeSet<Integer> candidate = new TreeSet<Integer>();
@@ -237,10 +237,10 @@ public class RuleMining {
 			}		
 		}
 		
-		itemsets.add(k,prepruning(temp,k));
+		itemsets.add(k,prepruning(ref,temp,k));
 	}
 	
-	public static ArrayList<Set<Integer>> prepruning(ArrayList<Set<Integer>> kfrequent,int k){
+	public static ArrayList<Set<Integer>> prepruning(RuleMining ref,ArrayList<Set<Integer>> kfrequent,int k){
 		ArrayList<Set<Integer>> finalKfrequent = new ArrayList<Set<Integer>>();
 		ArrayList<Set<Integer>> kminus1 = itemsets.get(k-1);
 		for(int i=0;i<kfrequent.size();i++)
@@ -261,9 +261,10 @@ public class RuleMining {
 				ArrayList<Integer> al_kfruent = new ArrayList<Integer>();
 				for (int index = 0; index < tem.length; index++)
 				    al_kfruent.add(tem[index]);
-				ArrayList<ArrayList<Integer>> kminus1cand = tranBreakdown(al_kfruent,k-1);
+				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k-1);
 				for(int p=0;p<kminus1cand.size();p++)
 				{
+					System.out.println(kminus1cand.get(p));
 					TreeSet<Integer> tempSet = new TreeSet<>(kminus1cand.get(p));
 					if(!kminus1.contains(tempSet))
 					{
@@ -290,15 +291,15 @@ public class RuleMining {
 		  return a;
 	}
 	
-	public static ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
+	public  ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
 		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 		int len = transaction.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
-		breakdown(sub,transaction,temp,0,len-1,0,k);
+		this.breakdown(sub,transaction,temp,0,len-1,0,k);
 		return sub;
 	}
 
-	public static void breakdown(ArrayList<ArrayList<Integer>> sub,ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
+	public void breakdown(ArrayList<ArrayList<Integer>> sub,ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
 			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for(int i = 0;i<temp.size();i++){
@@ -309,7 +310,7 @@ public class RuleMining {
 		}	
 		for(int i=low; (i <= high) && (high-i+1 >= k-point); i++ ){
 			temp.add(point,trans.get(i));
-			breakdown(sub,trans,temp,i+1,high,point+1,k);
+			this.breakdown(sub,trans,temp,i+1,high,point+1,k);
 			temp.remove(point);
 
 		}
