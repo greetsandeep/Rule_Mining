@@ -27,37 +27,45 @@ public class HashTree {
 			return false;
 		}
 		else{
-			System.out.println();
+			System.out.println(itemset.last());
 			HashTree node = this;
 			TreeSet copy = new TreeSet<Integer>(itemset);
 			while(itemset.size()>0){
 				int h = itemset.first();
 				itemset.remove(h);
-				if(children.get(h%hash)==null){
+				if(node.children.get(h%hash)==null){
 					HashTree temp = new HashTree(this.hash, node.depth+1);
-					children.add(h%hash,temp);
+					node.children.add(h%hash,temp);
 				}
-				node = children.get(h%hash);
+				node = node.children.get(h%hash);
 				System.out.println("Hash Value: "+h%hash+" Depth :"+node.depth);
 				if(itemset.size()==0){
+					System.out.println("Hello");
 					node.candidate.add(copy);
 					node.supportCount.add(0);
 				}
 				else{
-					if(candidate!=null&&candidate.size()<3){
+					if(node.candidate!=null&&node.candidate.size()<3){
+						System.out.println("Depth: "+node.depth+" Size: "+node.candidate.size());
+						if(node.candidate.size()>0)
+						System.out.println(node.candidate.get(0).last());
 						node.candidate.add(copy);
 						node.supportCount.add(0);
+						break;
 					}
 					else{
-						TreeSet<Integer> toCopy;
+						TreeSet<Integer> toCopy = new TreeSet<Integer>();
 						for(int i = 0;i<3;i++){
-							toCopy = candidate.get(i);
+							toCopy.clear();
+							toCopy.addAll(node.candidate.get(i));
 							for(int j=0;j<node.depth;j++){
 								toCopy.remove(toCopy.first());
 							}
 							int hCopy = toCopy.first();
-							node.children.add(hCopy%hash,new HashTree(hash, node.depth+1));
+							if(node.children.get(hCopy%hash)==null)
+								node.children.add(hCopy%hash,new HashTree(hash, node.depth+1));
 							node.children.get(hCopy%hash).candidate.add(node.candidate.get(i));
+							System.out.println("Adding test: "+node.children.get(hCopy%hash).candidate.get(i).last());
 						}
 						candidate = null;
 					}

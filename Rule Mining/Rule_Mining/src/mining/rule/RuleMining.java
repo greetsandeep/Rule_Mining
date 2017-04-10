@@ -41,12 +41,12 @@ public class RuleMining {
 		 
 		RuleMining ref = new RuleMining();
 		/** One transaction taken here for example **/
-		ref.tranBreakdown(refined.get(0),3);
-		System.out.println("Transaction: "+refined.get(0));
-		//System.out.println(sub.size());
-		for(int i =0;i<sub.size();i++){
-			System.out.println(sub.get(i));
-		}
+//		ref.tranBreakdown(refined.get(0),3);
+//		System.out.println("Transaction: "+refined.get(0));
+//		System.out.println(sub.size());
+//		for(int i =0;i<sub.size();i++){
+//			System.out.println(sub.get(i));
+//		}
 		kminus1tok(oneFreq);
 		HashTree root = new HashTree(3,0);
 		TreeSet<Integer> test = new TreeSet<Integer>();
@@ -54,6 +54,21 @@ public class RuleMining {
 		test.add(4);
 		test.add(7);
 		boolean status = root.hashItemset(test);
+		test.clear();
+		test.add(1);
+		test.add(4);
+		test.add(10);
+		status = root.hashItemset(test);
+		test.clear();
+		test.add(1);
+		test.add(4);
+		test.add(13);
+		status = root.hashItemset(test);
+		test.clear();
+		test.add(1);
+		test.add(4);
+		test.add(16);
+		status = root.hashItemset(test);
 		in.close();
 	}
 
