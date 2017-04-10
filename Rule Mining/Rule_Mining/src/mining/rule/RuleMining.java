@@ -37,6 +37,12 @@ public class RuleMining {
 		
 		setRepresentation(data);
 		kminus1tok(oneFreq);
+		HashTree root = new HashTree(3,0);
+		TreeSet<Integer> test = new TreeSet<Integer>();
+		test.add(1);
+		test.add(4);
+		test.add(7);
+		boolean status = root.hashItemset(test);
 		in.close();
 	}
 
