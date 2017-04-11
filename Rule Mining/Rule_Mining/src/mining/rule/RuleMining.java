@@ -57,6 +57,12 @@ public class RuleMining {
 		test.add(4);
 		test.add(7);
 		root.hashItemset(test);
+		ArrayList<Integer> testaaa = new ArrayList<Integer>();
+		testaaa.add(1);
+		testaaa.add(4);
+		testaaa.add(7);
+		root.updateSupportCount(testaaa);
+		root.updateSupportCount(testaaa);
 		test.remove(test.last());
 		test.add(8);
 		root.hashItemset(test);
@@ -65,8 +71,14 @@ public class RuleMining {
 		testa.add(4);
 		testa.add(8);
 		root.updateSupportCount(testa);
+		root.updateSupportCount(testa);
+		root.updateSupportCount(testa);
+		//System.out.println(root.children.get(1).supportCount.get(1));
+		ArrayList<TreeSet<Integer>> testaa = new ArrayList<TreeSet<Integer>>();
+		testaa = root.updateItemsets(0.1, 10);
+		System.out.println(testaa.size());
+		System.out.println(testaa.get(1).last());
 		*/
-		
 		in.close();
 	}
 

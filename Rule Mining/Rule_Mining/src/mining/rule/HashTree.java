@@ -109,4 +109,31 @@ public class HashTree {
 			}
 		}
 	}
+	
+	public ArrayList<TreeSet<Integer>> updateItemsets(double minsup, int noOfTransactions){
+		HashTree node = this;
+		
+		ArrayList<TreeSet<Integer>> itemsets = new ArrayList<TreeSet<Integer>>();
+		if(node.candidate == null){
+			ArrayList<TreeSet<Integer>> inter = new ArrayList<TreeSet<Integer>>();
+			for(int i=0;i<hash;i++){
+				if(node.children.get(i)!=null){
+					inter = node.children.get(i).updateItemsets(minsup,noOfTransactions);
+					for(int j=0;j<inter.size();j++){
+						itemsets.add(inter.get(j));
+					}
+				}
+			}
+		}
+		else{
+			for(int i = 0;i<candidate.size();i++){
+				if(supportCount.get(i)>minsup*noOfTransactions){
+					TreeSet<Integer> temp = new TreeSet<Integer>(node.candidate.get(i));
+					itemsets.add(temp);
+				}
+			}
+		}
+		
+		return itemsets;
+	}
 }
