@@ -25,6 +25,8 @@ public class RuleMining {
 		System.out.println("Enter The value for Minimum Confidence:\n");
 		double minConfidence = in.nextDouble();
 
+		long startTime = System.currentTimeMillis();
+		
 		DataRef dref = new DataRef();
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
@@ -36,15 +38,18 @@ public class RuleMining {
 		RuleMining ref = new RuleMining();
 		/** One transaction taken here for example **/
 
-		//		ref.tranBreakdown(refined.get(0),3);
-		//		System.out.println("Transaction: "+refined.get(0));
-		//		System.out.println(sub.size());
-		//		for(int i =0;i<sub.size();i++){
-		//			System.out.println(sub.get(i));
-		//		}
-
 		kminus1tok(ref,oneFreq,1);
-
+		
+		/** All frequent item generation and support count related stuff here*/
+		
+		long supportStopTime = System.currentTimeMillis();
+		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime));
+		
+		/** All Confidence related stuff to be done here*/
+		
+		long finalStopTime = System.currentTimeMillis();
+		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime));
+		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime));
 		in.close();
 	}
 
@@ -184,7 +189,7 @@ public class RuleMining {
 
 	/**
 	 * @param sets All K-1 dimension sets
-	 * @return All Possible K dimension sets obtained after having cross product : K-1 X K-1
+	 * @param k Current cardinality of subsets
 	 */
 	public static void kminus1tok(RuleMining ref,ArrayList<Set<Integer>> sets,int k){
 
@@ -211,7 +216,6 @@ public class RuleMining {
 				}
 			}		
 		}
-		
 		itemsets.add(k,prepruning(ref,temp,k));
 	}
 	
@@ -255,7 +259,6 @@ public class RuleMining {
 				for(int s=0;s<tem.length;s++)
 					toBeConsidered.add(tem[s]);
 				finalKfrequent.add(toBeConsidered);
-				System.out.println(toBeConsidered.first()+" "+toBeConsidered.last());
 			}
 		}
 		return finalKfrequent;
