@@ -50,6 +50,23 @@ public class RuleMining {
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime));
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime));
+		/*
+		HashTree root = new HashTree(3,0);
+		TreeSet<Integer> test = new TreeSet<Integer>();
+		test.add(1);
+		test.add(4);
+		test.add(7);
+		root.hashItemset(test);
+		test.remove(test.last());
+		test.add(8);
+		root.hashItemset(test);
+		ArrayList<Integer> testa = new ArrayList<Integer>();
+		testa.add(1);
+		testa.add(4);
+		testa.add(8);
+		root.updateSupportCount(testa);
+		*/
+		
 		in.close();
 	}
 
