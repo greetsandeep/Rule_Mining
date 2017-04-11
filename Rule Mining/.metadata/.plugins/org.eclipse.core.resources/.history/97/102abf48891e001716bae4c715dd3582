@@ -3,6 +3,8 @@ package mining.rule;
 import java.io.*;
 import java.util.*;
 
+import org.omg.CORBA.TRANSACTION_MODE;
+
 /**
  * @author Sandeep,Snehal,Poojitha
  *	AIM : To Use hash tree and come up with interesting association rules by using apriori algorithm.
@@ -11,6 +13,7 @@ public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
 	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
+	//public static ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 
 	public static void main(String args[]){
 		try{
@@ -44,6 +47,28 @@ public class RuleMining {
 		//		}
 
 		kminus1tok(ref,oneFreq,1);
+
+		//		HashTree root = new HashTree(3,0);
+		//		TreeSet<Integer> test = new TreeSet<Integer>();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(7);
+		//		boolean status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(10);
+		//		status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(13);
+		//		status = root.hashItemset(test);
+		//		test.clear();
+		//		test.add(1);
+		//		test.add(4);
+		//		test.add(16);
+		//		status = root.hashItemset(test);
 
 		in.close();
 	}
@@ -238,9 +263,18 @@ public class RuleMining {
 				    al_kfruent.add(tem[index]);
 			
 				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k);
-
+				
+				/*for(int idup=0;idup<sub.size();idup++){
+					
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					for(int jdup=0;jdup<sub.get(idup).size();jdup++){
+						temp.add(sub.get(idup).get(jdup));
+					}
+					kminus1cand.add(temp);
+				}*/
 				for(int p=0;p<kminus1cand.size();p++)
 				{
+					//System.out.println(kminus1cand.get(p));
 					TreeSet<Integer> tempSet = new TreeSet<Integer>(kminus1cand.get(p));
 					if(!kminus1.contains(tempSet))
 					{

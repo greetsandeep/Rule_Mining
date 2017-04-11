@@ -241,6 +241,7 @@ public class RuleMining {
 
 				for(int p=0;p<kminus1cand.size();p++)
 				{
+					//System.out.println(kminus1cand.get(p));
 					TreeSet<Integer> tempSet = new TreeSet<Integer>(kminus1cand.get(p));
 					if(!kminus1.contains(tempSet))
 					{
