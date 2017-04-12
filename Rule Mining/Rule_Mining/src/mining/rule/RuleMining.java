@@ -35,8 +35,8 @@ public class RuleMining {
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
-		for(int i=0;i<itemsets.size();i++)
-			System.out.println(itemsets.get(i));
+//		for(int i=0;i<itemsets.size();i++)
+//			System.out.println(itemsets.get(i));
 
 		RuleMining ref = new RuleMining();
 
@@ -56,10 +56,10 @@ public class RuleMining {
 				for(int p=0;p<temp.size();p++)
 					root.updateSupportCount(temp.get(p));
 			}
-			ArrayList<TreeSet<Integer>> Kfreq = root.updateItemsets(minSupport,data.size());
-			if(Kfreq.size()>0)
-				itemsets.set(i-1,Kfreq);
-			else
+			System.out.println("Before : "+ i+" "+ itemsets.get(i-1).size());
+			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
+			System.out.println("After : "+ i+" "+ itemsets.get(i-1).size());
+			if(!ifUpdated)
 				break;
 		}
 
@@ -68,9 +68,9 @@ public class RuleMining {
 
 			for(int j=0;j<itemsets.get(i).size();j++)
 			{
-				//System.out.println(itemsets.get(i).get(j));
+				System.out.println(itemsets.get(i).get(j));
 			}
-			//System.out.println(";;;;");
+			System.out.println(";;;;");
 
 		}
 
@@ -83,10 +83,10 @@ public class RuleMining {
 
 		/** All Confidence related stuff to be done here*/
 
-		confidentRuleGen(minConfidence);
+		//confidentRuleGen(minConfidence);
 		
-		for (Map.Entry<TreeSet<Integer>, Integer> entry : confidentRules.entrySet())
-			System.out.println(entry.getKey() + "/" + entry.getValue());
+//		for (Map.Entry<TreeSet<Integer>, Integer> entry : confidentRules.entrySet())
+//			System.out.println(entry.getKey() + "/" + entry.getValue());
 
 		
 		
