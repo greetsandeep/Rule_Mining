@@ -5,13 +5,15 @@ import java.util.*;
 
 /**
  * @author Sandeep,Snehal,Poojitha
- *	AIM : To Use hash tree and come up with interesting association rules by using apriori algorithm.
+ *	AIM : To Use hash tree and come up with interesting association rules by using Apriori algorithm.
  */
 public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
 	public static ArrayList<ArrayList<TreeSet<Integer>>> itemsets = new ArrayList<ArrayList<TreeSet<Integer>>>();
 	public static ArrayList<ArrayList<Integer>> data_attr = new ArrayList<ArrayList<Integer>>();
+	public static HashMap<TreeSet<Integer>, Double> itemWithSupport = new HashMap<TreeSet<Integer>,Double>();
+	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
 	public static void main(String args[]){
 		try{
 			inputHandle("dataFile.txt",data);
@@ -27,11 +29,14 @@ public class RuleMining {
 
 		long startTime = System.currentTimeMillis();
 
-		DataRef dref = new DataRef();
+		/** Program Begins */
+		DataRef dref = new DataRef(); /** An object of DataRef Class */
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
+		for(int i=0;i<itemsets.size();i++)
+			System.out.println(itemsets.get(i));
 
 		RuleMining ref = new RuleMining();
 
@@ -43,7 +48,7 @@ public class RuleMining {
 			kminus1tok(ref,itemsets.get(i-2),i);
 			for(int j=0;j<itemsets.get(i-1).size();j++)
 				root.hashItemset(itemsets.get(i-1).get(j));
-			
+
 			for(int j=0;j<data_attr.size();j++)
 			{
 				ArrayList<ArrayList<Integer>> temp =  new ArrayList<ArrayList<Integer>>();
@@ -57,17 +62,34 @@ public class RuleMining {
 			else
 				break;
 		}
-		
+
 		for(int i=0;i<itemsets.size();i++)
 		{
-			for(int j=0;j<itemsets.get(i).size();j++){}
+
+			for(int j=0;j<itemsets.get(i).size();j++)
+			{
 				//System.out.println(itemsets.get(i).get(j));
+			}
+			//System.out.println(";;;;");
+
 		}
+
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
 
+//		for (Map.Entry<TreeSet<Integer>, Double> entry : itemWithSupport.entrySet())
+//			System.out.println(entry.getKey() + "/" + entry.getValue());
+
+
 		/** All Confidence related stuff to be done here*/
 
+		confidentRuleGen(minConfidence);
+		
+		for (Map.Entry<TreeSet<Integer>, Integer> entry : confidentRules.entrySet())
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+
+		
+		
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
@@ -178,6 +200,7 @@ public class RuleMining {
 				TreeSet<Integer> temp = new TreeSet<Integer>();
 				temp.add(i);
 				frequent.add(temp);
+				itemWithSupport.put(temp,supportValues[i]);
 			}
 		}
 		return frequent;
@@ -207,7 +230,6 @@ public class RuleMining {
 	 * @param k Current cardinality of subsets
 	 */
 	public static void kminus1tok(RuleMining ref,ArrayList<TreeSet<Integer>> sets,int k){
-
 		ArrayList<TreeSet<Integer>> temp = new ArrayList<TreeSet<Integer>>();
 		TreeSet<Integer> candidate = new TreeSet<Integer>();
 		TreeSet<Integer> toMerge = new TreeSet<Integer>();
@@ -265,7 +287,6 @@ public class RuleMining {
 					al_kfruent.add(tem[index]);
 
 				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k-1);
-				//System.out.println("kminus1cand + "+kminus1cand.size());
 				for(int p=0;p<kminus1cand.size();p++)
 				{
 					TreeSet<Integer> tempSet = new TreeSet<Integer>(kminus1cand.get(p));
@@ -337,4 +358,31 @@ public class RuleMining {
 			temp.remove(point);
 		}
 	}
+	
+	public static void confidentRuleGen(double minConf){
+		for(int i=1;i<itemsets.size();i++)
+		{
+			for(int j=0;j<itemsets.get(i).size();j++)
+			{
+				if(itemsets.get(i).get(j).contains(32)||itemsets.get(i).get(j).contains(33))
+					isConfRule(itemsets.get(i).get(j),minConf);
+			}
+		}
+	}
+	
+	public static void isConfRule(TreeSet<Integer> set,double minConf){
+		TreeSet<Integer>temp = new TreeSet<Integer>(set);
+		int categ = 33;
+		if(temp.contains(32))
+		{
+			temp.remove(32);
+			categ = 32;
+		}
+		else
+			temp.remove(33);
+		
+		if(itemWithSupport.get(set)/itemWithSupport.get(temp) >= minConf)
+			confidentRules.put(temp,categ);	
+	}
+	
 }		
