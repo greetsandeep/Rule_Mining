@@ -178,6 +178,7 @@ public class RuleMining {
 			}
 			data_rept.add(temp);
 		}
+
 		return data_rept;
 	}
 

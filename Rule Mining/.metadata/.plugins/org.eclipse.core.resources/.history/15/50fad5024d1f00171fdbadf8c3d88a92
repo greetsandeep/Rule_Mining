@@ -50,6 +50,35 @@ public class RuleMining {
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime));
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime));
+		/*
+		HashTree root = new HashTree(3,0);
+		TreeSet<Integer> test = new TreeSet<Integer>();
+		test.add(1);
+		test.add(4);
+		test.add(7);
+		root.hashItemset(test);
+		ArrayList<Integer> testaaa = new ArrayList<Integer>();
+		testaaa.add(1);
+		testaaa.add(4);
+		testaaa.add(7);
+		root.updateSupportCount(testaaa);
+		root.updateSupportCount(testaaa);
+		test.remove(test.last());
+		test.add(8);
+		root.hashItemset(test);
+		ArrayList<Integer> testa = new ArrayList<Integer>();
+		testa.add(1);
+		testa.add(4);
+		testa.add(8);
+		root.updateSupportCount(testa);
+		root.updateSupportCount(testa);
+		root.updateSupportCount(testa);
+		//System.out.println(root.children.get(1).supportCount.get(1));
+		ArrayList<TreeSet<Integer>> testaa = new ArrayList<TreeSet<Integer>>();
+		testaa = root.updateItemsets(0.1, 10);
+		System.out.println(testaa.size());
+		System.out.println(testaa.get(1).last());
+		*/
 		in.close();
 	}
 
@@ -67,8 +96,11 @@ public class RuleMining {
 			int row[] = new int[17];
 			while(st.hasMoreTokens()){
 				for(int i=0;i<17;i++)
+				{
 					row[i] = getInt(st.nextToken());
+				}
 			}
+
 			data.add(expand(row));
 		}       
 		br.close();
@@ -178,6 +210,7 @@ public class RuleMining {
 			}
 			data_rept.add(temp);
 		}
+
 		return data_rept;
 	}
 

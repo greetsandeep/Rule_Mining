@@ -67,8 +67,11 @@ public class RuleMining {
 			int row[] = new int[17];
 			while(st.hasMoreTokens()){
 				for(int i=0;i<17;i++)
+				{
 					row[i] = getInt(st.nextToken());
+				}
 			}
+
 			data.add(expand(row));
 		}       
 		br.close();
@@ -178,6 +181,7 @@ public class RuleMining {
 			}
 			data_rept.add(temp);
 		}
+
 		return data_rept;
 	}
 
