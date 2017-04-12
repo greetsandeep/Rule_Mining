@@ -10,8 +10,8 @@ import java.util.*;
 public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
 	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
-	public static ArrayList<ArrayList<Set<Integer>>> itemsets = new ArrayList<ArrayList<Set<Integer>>>();
-
+	public static ArrayList<ArrayList<TreeSet<Integer>>> itemsets = new ArrayList<ArrayList<TreeSet<Integer>>>();
+	public static ArrayList<ArrayList<Integer>> data_attr = new ArrayList<ArrayList<Integer>>();
 	public static void main(String args[]){
 		try{
 			inputHandle("dataFile.txt",data);
@@ -26,30 +26,49 @@ public class RuleMining {
 		double minConfidence = in.nextDouble();
 
 		long startTime = System.currentTimeMillis();
-		
+
 		DataRef dref = new DataRef();
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
-		ArrayList<Set<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
+		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
 
-		ArrayList<ArrayList<Integer>> refined = attributeRepresentation(data);
-
 		RuleMining ref = new RuleMining();
-		/** One transaction taken here for example **/
 
-		kminus1tok(ref,oneFreq,1);
-		
-		/** All frequent item generation and support count related stuff here*/
-		
+		data_attr = attributeRepresentation(data);
+		for(int i=2;i<=16;i++)
+		{
+			HashTree root = new HashTree(16-i,0);
+			kminus1tok(ref,itemsets.get(i-2),i-1);
+			for(int j=0;j<itemsets.get(i-1).size();j++)
+				root.hashItemset(itemsets.get(i-1).get(j));
+			
+			for(int j=0;j<data_attr.size();j++)
+			{
+				ArrayList<ArrayList<Integer>> temp =  new ArrayList<ArrayList<Integer>>();
+				temp = ref.tranBreakdown(data_attr.get(j),i);
+				for(int p=0;p<temp.size();p++)
+					root.updateSupportCount(temp.get(p));
+			}
+			if(root.updateItemsets(minSupport,data.size()).size()>0)
+				itemsets.add(i-1,root.updateItemsets(minSupport,data.size()));
+			else
+				break;
+		}
+
+		for(int i=0;i<itemsets.size();i++)
+		{
+			for(int j=0;j<itemsets.get(i).size();j++)
+				System.out.println(itemsets.get(i).get(j));
+		}
 		long supportStopTime = System.currentTimeMillis();
-		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime));
-		
+		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
+
 		/** All Confidence related stuff to be done here*/
-		
+
 		long finalStopTime = System.currentTimeMillis();
-		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime));
-		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime));
+		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
+		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
 		in.close();
 	}
 
@@ -134,8 +153,8 @@ public class RuleMining {
 	 * @param minSupport The Support Threshold
 	 * @return The ArrayList which contains all sets of 1-frequent items corresponding to the minimum Support Threshold
 	 */
-	public static ArrayList<Set<Integer>> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
-		ArrayList<Set<Integer>> frequent = new ArrayList<Set<Integer>>();
+	public static ArrayList<TreeSet<Integer>> oneFrequentItemSet(ArrayList<int []>data,DataRef dref,double minSupport){
+		ArrayList<TreeSet<Integer>> frequent = new ArrayList<TreeSet<Integer>>();
 		int vectorLen = data.get(0).length;
 		double supportValues[] = new double[vectorLen];
 		for(int i = 0; i < data.size();i++)
@@ -154,7 +173,7 @@ public class RuleMining {
 		{
 			if(supportValues[i]>=minSupport)
 			{
-				Set<Integer> temp = new TreeSet<Integer>();
+				TreeSet<Integer> temp = new TreeSet<Integer>();
 				temp.add(i);
 				frequent.add(temp);
 			}
@@ -181,14 +200,13 @@ public class RuleMining {
 		return data_rept;
 	}
 
-
 	/**
 	 * @param sets All K-1 dimension sets
 	 * @param k Current cardinality of subsets
 	 */
-	public static void kminus1tok(RuleMining ref,ArrayList<Set<Integer>> sets,int k){
+	public static void kminus1tok(RuleMining ref,ArrayList<TreeSet<Integer>> sets,int k){
 
-		ArrayList<Set<Integer>> temp = new ArrayList<Set<Integer>>();
+		ArrayList<TreeSet<Integer>> temp = new ArrayList<TreeSet<Integer>>();
 		TreeSet<Integer> candidate = new TreeSet<Integer>();
 		TreeSet<Integer> toMerge = new TreeSet<Integer>();
 		for(int i=0;i<sets.size();i++)
@@ -213,10 +231,16 @@ public class RuleMining {
 		}
 		itemsets.add(k,prepruning(ref,temp,k));
 	}
-	
-	public static ArrayList<Set<Integer>> prepruning(RuleMining ref,ArrayList<Set<Integer>> kfrequent,int k){
-		ArrayList<Set<Integer>> finalKfrequent = new ArrayList<Set<Integer>>();
-		ArrayList<Set<Integer>> kminus1 = itemsets.get(k-1);
+
+	/**
+	 * @param ref The object of class RuleMining
+	 * @param kfrequent The item sets of length K which are yet to be pruned further
+	 * @param k The length of item sets 
+	 * @return The set of K frequent item sets after removing sets which contain elements in which both stances for a particular cause has been taken. Also if it's k-1 subsets are not frequent then removed.  
+	 */
+	public static ArrayList<TreeSet<Integer>> prepruning(RuleMining ref,ArrayList<TreeSet<Integer>> kfrequent,int k){
+		ArrayList<TreeSet<Integer>> finalKfrequent = new ArrayList<TreeSet<Integer>>();
+		ArrayList<TreeSet<Integer>> kminus1 = itemsets.get(k-1);
 		for(int i=0;i<kfrequent.size();i++)
 		{
 			int tem[] = toInt(kfrequent.get(i));
@@ -229,13 +253,13 @@ public class RuleMining {
 					break;
 				}
 			}
-			
+
 			if(flag==1)
 			{
 				ArrayList<Integer> al_kfruent = new ArrayList<Integer>();
 				for (int index = 0; index < tem.length; index++)
-				    al_kfruent.add(tem[index]);
-			
+					al_kfruent.add(tem[index]);
+
 				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k);
 
 				for(int p=0;p<kminus1cand.size();p++)
@@ -258,15 +282,25 @@ public class RuleMining {
 		}
 		return finalKfrequent;
 	}
-	
+
+	/**
+	 * @param set The Set of integers which we want to convert to an integer array representation for processing purposes
+	 * @return an integer array representation of the Set of Integers
+	 */
 	public static int[] toInt(Set<Integer> set) {
-		  int[] a = new int[set.size()];
-		  int i = 0;
-		  for (Integer val : set) a[i++] = val;
-		  return a;
+		int[] a = new int[set.size()];
+		int i = 0;
+		for (Integer val : set) a[i++] = val;
+		return a;
 	}
-	
-	public  ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
+
+	/**
+	 * @param transaction
+	 * @param k
+	 * @return
+	 * Poojitha iska documentation karegi :)
+	 */
+	public ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
 		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
 		int len = transaction.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -274,6 +308,16 @@ public class RuleMining {
 		return sub;
 	}
 
+	/**
+	 * @param sub
+	 * @param trans
+	 * @param temp
+	 * @param low
+	 * @param high
+	 * @param point
+	 * @param k
+	 * iska bhi :D
+	 */
 	public void breakdown(ArrayList<ArrayList<Integer>> sub, ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
 			ArrayList<Integer> copy = new ArrayList<Integer>();
