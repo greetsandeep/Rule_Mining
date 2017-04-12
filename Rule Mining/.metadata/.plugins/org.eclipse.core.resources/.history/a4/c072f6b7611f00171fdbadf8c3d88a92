@@ -32,7 +32,6 @@ public class RuleMining {
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
-		itemsets.add(0,oneFreq);
 		for(int i=0;i<itemsets.size();i++)
 			System.out.println(itemsets.get(i));
 

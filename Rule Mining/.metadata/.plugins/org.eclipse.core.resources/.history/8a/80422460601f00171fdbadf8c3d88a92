@@ -27,12 +27,12 @@ public class RuleMining {
 
 		long startTime = System.currentTimeMillis();
 
-		/** Program Begins */
-		DataRef dref = new DataRef(); /** An object of DataRef Class */
+		DataRef dref = new DataRef();
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
+
 		for(int i=0;i<itemsets.size();i++)
 			System.out.println(itemsets.get(i));
 
@@ -54,19 +54,19 @@ public class RuleMining {
 					root.updateSupportCount(temp.get(p));
 			}
 			if(root.updateItemsets(minSupport,data.size()).size()>0)
-				itemsets.set(i-1,root.updateItemsets(minSupport,data.size()));
+				itemsets.add(i-1,root.updateItemsets(minSupport,data.size()));
 			else
 				break;
 		}
 
 		for(int i=0;i<itemsets.size();i++)
-		{
+			{
 			for(int j=0;j<itemsets.get(i).size();j++)
+			
 			{
 				System.out.println(itemsets.get(i).get(j));
 			}
-			System.out.println(";;;;");
-		}
+			{
 
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
@@ -212,6 +212,7 @@ public class RuleMining {
 	 * @param k Current cardinality of subsets
 	 */
 	public static void kminus1tok(RuleMining ref,ArrayList<TreeSet<Integer>> sets,int k){
+
 		ArrayList<TreeSet<Integer>> temp = new ArrayList<TreeSet<Integer>>();
 		TreeSet<Integer> candidate = new TreeSet<Integer>();
 		TreeSet<Integer> toMerge = new TreeSet<Integer>();
