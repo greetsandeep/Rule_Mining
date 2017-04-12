@@ -38,7 +38,7 @@ public class RuleMining {
 		data_attr = attributeRepresentation(data);
 		for(int i=2;i<=16;i++)
 		{   
-			System.out.println(i);
+			
 			HashTree root = new HashTree(16-i,0);
 			kminus1tok(ref,itemsets.get(i-2),i);
 			for(int j=0;j<itemsets.get(i-1).size();j++)
@@ -60,8 +60,8 @@ public class RuleMining {
 		
 		for(int i=0;i<itemsets.size();i++)
 		{
-			for(int j=0;j<itemsets.get(i).size();j++)
-				System.out.println(itemsets.get(i).get(j));
+			for(int j=0;j<itemsets.get(i).size();j++){}
+				//System.out.println(itemsets.get(i).get(j));
 		}
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");

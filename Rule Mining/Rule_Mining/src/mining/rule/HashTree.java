@@ -85,16 +85,20 @@ public class HashTree {
 				int h = itemset.get(i)%hash;
 				node = node.children.get(h);
 				if(node==null){
-					break;
+					
 				}
 			}
 			else{
+				System.out.println(node.candidate.size());
 				for(int j = 0;j<node.candidate.size();j++){
+					
 					if(node.candidate.get(j)!=null){
+						System.out.println(node.candidate.get(j));
 						copy.clear();
 						copy.addAll(setRep);
 						copy.addAll(node.candidate.get(j));
 						if(copy.size()==setRep.size()){
+							
 							int sc = node.supportCount.get(j);
 							sc++;
 							node.supportCount.set(j,sc);
@@ -128,14 +132,14 @@ public class HashTree {
 		else{
 			
 			for(int i = 0;i<node.candidate.size();i++){
-				
+				//System.out.println(node.supportCount.get(i));
 				if(node.supportCount.get(i)>minsup*noOfTransactions){
 					TreeSet<Integer> temp = new TreeSet<Integer>(node.candidate.get(i));
 					itemsets.add(temp);
 				}
 			}
 		}
-		System.out.println("Hash value: "+this.hash+" Itemset size : "+itemsets.size());
+		//System.out.println("Hash value: "+this.hash+" Itemset size : "+itemsets.size());
 		return itemsets;
 	}
 }
