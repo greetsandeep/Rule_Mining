@@ -54,9 +54,14 @@ public class RuleMining {
 				for(int p=0;p<temp.size();p++)
 					root.updateSupportCount(temp.get(p));
 			}
+<<<<<<< HEAD
+			if(root.updateItemsets(minSupport,data.size()).size()>0)
+				itemsets.set(i-1,root.updateItemsets(minSupport,data.size()));
+=======
 			ArrayList<TreeSet<Integer>> Kfreq = root.updateItemsets(minSupport,data.size());
 			if(Kfreq.size()>0)
 				itemsets.set(i-1,Kfreq);
+>>>>>>> 5cca48c95eb648c99ec3c178dccd7cd8e23aedb4
 			else
 				break;
 		}
