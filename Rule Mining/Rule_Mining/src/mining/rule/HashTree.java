@@ -22,12 +22,7 @@ public class HashTree {
 		}
 	}
 		
-	public boolean hashItemset(Set<Integer> set){
-		if(set.size()!=hash){
-			return false;
-		}
-		else{
-			
+	public void hashItemset(TreeSet<Integer> set){
 			HashTree node = this;
 			TreeSet<Integer> copy = new TreeSet<Integer>(set);
 			TreeSet<Integer> itemset = new TreeSet<Integer>(set);
@@ -37,7 +32,6 @@ public class HashTree {
 				if(node.children.get(h%hash)==null){
 					HashTree temp = new HashTree(this.hash, node.depth+1);
 					node.children.set(h%hash,temp);
-					
 				}
 				node = node.children.get(h%hash);
 				if(itemset.size()==0){
@@ -46,30 +40,36 @@ public class HashTree {
 				}
 				else{
 					if(node.candidate!=null&&node.candidate.size()<3){
-						
 						node.candidate.add(copy);
 						node.supportCount.add(0);
 						break;
 					}
 					else{
-						TreeSet<Integer> toCopy = new TreeSet<Integer>();
-						for(int i = 0;i<3;i++){
-							toCopy.clear();
-							toCopy.addAll(node.candidate.get(i));
-							for(int j=0;j<node.depth;j++){
-								toCopy.remove(toCopy.first());
-							}
-							int hCopy = toCopy.first();
-							if(node.children.get(hCopy%hash)==null)
-								node.children.set(hCopy%hash,new HashTree(hash, node.depth+1));
-							node.children.get(hCopy%hash).candidate.add(node.candidate.get(i));
+						if(node.candidate == null && node.depth!=0){
+							continue;
 						}
-						node.candidate = null;
+						else{
+							TreeSet<Integer> toCopy = new TreeSet<Integer>();
+							for(int i = 0;i<3;i++){
+								toCopy.clear();
+								toCopy.addAll(node.candidate.get(i));
+								for(int j=0;j<node.depth;j++){
+									toCopy.remove(toCopy.first());
+								}
+								int hCopy = toCopy.first();
+								if(node.children.get(hCopy%hash)==null){
+									node.children.set(hCopy%hash,new HashTree(hash, node.depth+1));
+								}
+								node.children.get(hCopy%hash).candidate.add(node.candidate.get(i));
+								node.children.get(hCopy%hash).supportCount.add(node.supportCount.get(i));
+							}
+							node.candidate = null;
+						}
 					}
 				}
 			}
-			return true;
-		}
+			
+		
 	}
 	
 	public void updateSupportCount(ArrayList<Integer> itemset){
@@ -126,13 +126,16 @@ public class HashTree {
 			}
 		}
 		else{
-			for(int i = 0;i<candidate.size();i++){
-				if(supportCount.get(i)>minsup*noOfTransactions){
+			
+			for(int i = 0;i<node.candidate.size();i++){
+				
+				if(node.supportCount.get(i)>minsup*noOfTransactions){
 					TreeSet<Integer> temp = new TreeSet<Integer>(node.candidate.get(i));
 					itemsets.add(temp);
 				}
 			}
 		}
+		System.out.println("Hash value: "+this.hash+" Itemset size : "+itemsets.size());
 		return itemsets;
 	}
 }

@@ -37,9 +37,10 @@ public class RuleMining {
 
 		data_attr = attributeRepresentation(data);
 		for(int i=2;i<=16;i++)
-		{
+		{   
+			System.out.println(i);
 			HashTree root = new HashTree(16-i,0);
-			kminus1tok(ref,itemsets.get(i-2),i-1);
+			kminus1tok(ref,itemsets.get(i-2),i);
 			for(int j=0;j<itemsets.get(i-1).size();j++)
 				root.hashItemset(itemsets.get(i-1).get(j));
 			
@@ -50,12 +51,13 @@ public class RuleMining {
 				for(int p=0;p<temp.size();p++)
 					root.updateSupportCount(temp.get(p));
 			}
-			if(root.updateItemsets(minSupport,data.size()).size()>0)
-				itemsets.add(i-1,root.updateItemsets(minSupport,data.size()));
+			ArrayList<TreeSet<Integer>> Kfreq = root.updateItemsets(minSupport,data.size());
+			if(Kfreq.size()>0)
+				itemsets.set(i-1,Kfreq);
 			else
 				break;
 		}
-
+		
 		for(int i=0;i<itemsets.size();i++)
 		{
 			for(int j=0;j<itemsets.get(i).size();j++)
@@ -229,7 +231,9 @@ public class RuleMining {
 				}
 			}		
 		}
-		itemsets.add(k,prepruning(ref,temp,k));
+		//System.out.println("Temp Size : "+temp.size());
+		itemsets.add(k-1,prepruning(ref,temp,k));
+		//System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
 	}
 
 	/**
@@ -240,7 +244,7 @@ public class RuleMining {
 	 */
 	public static ArrayList<TreeSet<Integer>> prepruning(RuleMining ref,ArrayList<TreeSet<Integer>> kfrequent,int k){
 		ArrayList<TreeSet<Integer>> finalKfrequent = new ArrayList<TreeSet<Integer>>();
-		ArrayList<TreeSet<Integer>> kminus1 = itemsets.get(k-1);
+		ArrayList<TreeSet<Integer>> kminus1 = itemsets.get(k-2);
 		for(int i=0;i<kfrequent.size();i++)
 		{
 			int tem[] = toInt(kfrequent.get(i));
@@ -260,8 +264,8 @@ public class RuleMining {
 				for (int index = 0; index < tem.length; index++)
 					al_kfruent.add(tem[index]);
 
-				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k);
-
+				ArrayList<ArrayList<Integer>> kminus1cand = ref.tranBreakdown(al_kfruent,k-1);
+				//System.out.println("kminus1cand + "+kminus1cand.size());
 				for(int p=0;p<kminus1cand.size();p++)
 				{
 					TreeSet<Integer> tempSet = new TreeSet<Integer>(kminus1cand.get(p));
