@@ -16,7 +16,7 @@ public class RuleMining {
 	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
 	public static void main(String args[]){
 		try{
-			inputHandle("sample.txt",data);
+			inputHandle("dataFile.txt",data);
 		}catch(Exception e){
 			System.out.println("Error In file Reading " + e);
 		}

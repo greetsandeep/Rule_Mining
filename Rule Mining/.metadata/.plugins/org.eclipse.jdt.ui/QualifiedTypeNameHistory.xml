@@ -5,7 +5,6 @@
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.util.StringTokenizer"/>
-<fullyQualifiedTypeName name="mining.rule.DataRef"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="javax.lang.model.type.ArrayType"/>
@@ -19,10 +18,12 @@
 <fullyQualifiedTypeName name="org.omg.CORBA.TRANSACTION_MODE"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.lang.Double"/>
 <fullyQualifiedTypeName name="mining.rule.RuleMining"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.omg.PortableInterceptor.INACTIVE"/>
+<fullyQualifiedTypeName name="mining.rule.DataRef"/>
 <fullyQualifiedTypeName name="java.util.TreeSet"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
 </qualifiedTypeNameHistroy>

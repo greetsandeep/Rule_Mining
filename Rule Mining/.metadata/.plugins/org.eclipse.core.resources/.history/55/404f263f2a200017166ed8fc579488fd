@@ -16,7 +16,7 @@ public class RuleMining {
 	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
 	public static void main(String args[]){
 		try{
-			inputHandle("sample.txt",data);
+			inputHandle("dataFile.txt",data);
 		}catch(Exception e){
 			System.out.println("Error In file Reading " + e);
 		}
@@ -53,7 +53,7 @@ public class RuleMining {
 				for(int p=0;p<temp.size();p++)
 					root.updateSupportCount(temp.get(p));
 			}
-
+			
 			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
 			if(!ifUpdated)
 				break;
@@ -62,17 +62,11 @@ public class RuleMining {
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
 
-		System.out.println("\n'*'*'*'\n");
-		
-		for(Map.Entry<TreeSet<Integer>,Double> entry: itemWithSupport.entrySet() ){
-			System.out.println(entry.getKey()+" : "+entry.getValue());
-		}
-		
 		System.out.println("\n\n\n\n\n");
 		/** All Confidence related stuff to be done here*/
 
 		confidentRuleGen(minConfidence);
-
+		
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
@@ -354,7 +348,8 @@ public class RuleMining {
 
 	public static void isConfRule(TreeSet<Integer> set,double minConf){
 		DataRef dref = new DataRef();
-
+		
+		
 		TreeSet<Integer>temp = new TreeSet<Integer>(set);
 		int categ = 33;
 		if(temp.contains(32))
@@ -364,17 +359,28 @@ public class RuleMining {
 		}
 		else
 			temp.remove(33);		
-
+		
+//		
+//		for(Map.Entry<TreeSet<Integer>,Integer> entry: confidentRules.entrySet())
+//		{
+//			for (Integer s : entry.getKey()) {
+//			    System.out.print(dref.attrRef[s]+" ,");
+//			}
+//			System.out.print(" => "+ dref.attrRef[entry.getValue()]);
+//			System.out.println();
+//		}
+//		
+//		
 		double conf = itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)); 
 		if( conf >= minConf)
 		{
 			confidentRules.put(temp,categ);
 			for (Integer s : temp) {
-				System.out.print(dref.attrRef[s]+" ,");
+			    System.out.print(dref.attrRef[s]+" ,");
 			}
-
+			
 			conf = conf*100;
-
+			
 			System.out.print(" => "+ dref.attrRef[categ]);
 			System.out.printf("\t %.2f \n ",conf);
 		}
