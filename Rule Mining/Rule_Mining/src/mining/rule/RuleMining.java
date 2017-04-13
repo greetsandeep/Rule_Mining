@@ -57,22 +57,26 @@ public class RuleMining {
 					root.updateSupportCount(temp.get(p));
 			}
 			System.out.println("Before : "+ i+" "+ itemsets.get(i-1).size());
+			for(int j=0;j<itemsets.get(i-1).size();j++)
+			{
+				System.out.println(itemsets.get(i-1).get(j));
+			}
 			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
 			System.out.println("After : "+ i+" "+ itemsets.get(i-1).size());
 			if(!ifUpdated)
 				break;
 		}
 
-		for(int i=0;i<itemsets.size();i++)
-		{
-
-			for(int j=0;j<itemsets.get(i).size();j++)
-			{
-				System.out.println(itemsets.get(i).get(j));
-			}
-			System.out.println(";;;;");
-
-		}
+//		for(int i=0;i<itemsets.size();i++)
+//		{
+//
+//			for(int j=0;j<itemsets.get(i).size();j++)
+//			{
+//				System.out.println(itemsets.get(i).get(j));
+//			}
+//			System.out.println(";;;;");
+//
+//		}
 
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
@@ -237,7 +241,8 @@ public class RuleMining {
 		{
 			for(int j=i+1;j<sets.size();j++)
 			{
-				candidate = new TreeSet<Integer>();
+				candidate.clear();
+				toMerge.clear();
 				candidate.addAll(sets.get(i));
 				int lastI = candidate.last();
 				candidate.remove(lastI);
@@ -249,13 +254,15 @@ public class RuleMining {
 				{
 					candidate.add(lastI);
 					candidate.add(lastJ);
-					temp.add(candidate);
+					temp.add(new TreeSet<Integer>(candidate));
 				}
 			}		
 		}
-		//System.out.println("Temp Size : "+temp.size());
+		System.out.println("Sets Size : "+sets.size());
+		System.out.println("Temp Size : "+temp.size());
+		//itemsets.add(k-1,temp);
 		itemsets.add(k-1,prepruning(ref,temp,k));
-		//System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
+		System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
 	}
 
 	/**

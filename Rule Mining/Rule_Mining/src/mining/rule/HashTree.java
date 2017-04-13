@@ -54,7 +54,7 @@ public class HashTree {
 								toCopy.clear();
 								toCopy.addAll(node.candidate.get(i));
 								if(toCopy.size()>0){
-									System.out.println(toCopy);
+									//System.out.println(toCopy);
 									for(int j=0;j<node.depth;j++){
 										toCopy.remove(toCopy.first());
 									}								
@@ -139,7 +139,7 @@ public class HashTree {
 						TreeSet<Integer> temp1 = new TreeSet<Integer>(node.candidate.get(i));
 						double support = node.supportCount.get(i)/noOfTransactions;
 						RuleMining.itemsets.get(15-hash).add(temp1);
-						System.out.println("itemsets size: "+RuleMining.itemsets.get(15-hash).size()+" hash: "+this.hash);
+						//System.out.println("itemsets size: "+RuleMining.itemsets.get(15-hash).size()+" hash: "+this.hash);
 						RuleMining.itemWithSupport.put(temp,support);
 						status = true;
 					}
