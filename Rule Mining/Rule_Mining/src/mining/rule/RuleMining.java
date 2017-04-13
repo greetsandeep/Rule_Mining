@@ -9,27 +9,38 @@ import java.util.*;
  */
 public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
-	public static ArrayList<int[]> data = new ArrayList<int[]>(); 
+	public static ArrayList<int[]> data = new ArrayList<int[]>();
+	
+	/** A Data Structure which stores all the frequent item sets. At the index 0 we have an Array List of all 1-frequent item sets */
 	public static ArrayList<ArrayList<TreeSet<Integer>>> itemsets = new ArrayList<ArrayList<TreeSet<Integer>>>();
+	
+	/** Representing all the transactions in the form of Array List of Integers */
 	public static ArrayList<ArrayList<Integer>> data_attr = new ArrayList<ArrayList<Integer>>();
+	
+	/** A HashMap which maps all item sets with the item set's Support value  */
 	public static HashMap<TreeSet<Integer>, Double> itemWithSupport = new HashMap<TreeSet<Integer>,Double>();
+	
+	/** A HashMap which contains all the rules which have confidence higher than the threshold */
 	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
+	
+	
 	public static void main(String args[]){
+	
 		try{
 			inputHandle("sample.txt",data);
 		}catch(Exception e){
-			System.out.println("Error In file Reading " + e);
+			System.out.println("\nError In file Reading " + e);
 		}
 
 		Scanner in = new Scanner(System.in);
-		System.out.println("Enter The Value for Minimum Support:\n");
+		System.out.println("\nEnter The Value for Minimum Support:\n");
 		double minSupport = in.nextDouble();
-		System.out.println("Enter The value for Minimum Confidence:\n");
+		System.out.println("\nEnter The value for Minimum Confidence:\n");
 		double minConfidence = in.nextDouble();
 
 		long startTime = System.currentTimeMillis();
 
-		/** Program Begins */
+		/* Program Begins */
 		DataRef dref = new DataRef(); /** An object of DataRef Class */
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
@@ -40,7 +51,6 @@ public class RuleMining {
 		data_attr = attributeRepresentation(data);
 		for(int i=2;i<=16;i++)
 		{   
-
 			HashTree root = new HashTree(16-i,0);
 			kminus1tok(ref,itemsets.get(i-2),i);
 			for(int j=0;j<itemsets.get(i-1).size();j++)
@@ -60,19 +70,12 @@ public class RuleMining {
 		}
 
 		long supportStopTime = System.currentTimeMillis();
-		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
+		System.out.println("\nThe Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" milliseconds\n");
 
-		System.out.println("\n'*'*'*'\n");
-		
-		for(Map.Entry<TreeSet<Integer>,Double> entry: itemWithSupport.entrySet() ){
-			System.out.println(entry.getKey()+" : "+entry.getValue());
-		}
-		
-		System.out.println("\n\n\n\n\n");
-		/** All Confidence related stuff to be done here*/
 
 		confidentRuleGen(minConfidence);
 
+		
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
@@ -118,8 +121,8 @@ public class RuleMining {
 	}
 
 	/**
-	 * @param row the row which we created after reading in the data
-	 * @return a row with binarized categorical data. The attribute corresponding to the data can be found in DataRef Class
+	 * @param row The row which we created after reading in the data
+	 * @return A row with binarized categorical data. The attribute corresponding to the data can be found in DataRef Class
 	 */
 	public static int[] expand(int row[]){
 		int ans[] = new int[34];
@@ -211,6 +214,8 @@ public class RuleMining {
 	/**
 	 * @param sets All K-1 dimension sets
 	 * @param k Current cardinality of subsets
+	 * This function takes in all the frequent k-1 subsets and generates the candidate k subsets. 
+	 * These candidates are then prepuned and passed to the HashTree class so that a tree can be formed out of these.
 	 */
 	public static void kminus1tok(RuleMining ref,ArrayList<TreeSet<Integer>> sets,int k){
 		ArrayList<TreeSet<Integer>> temp = new ArrayList<TreeSet<Integer>>();
@@ -305,9 +310,10 @@ public class RuleMining {
 
 	/**
 	 * @param transaction
-	 * @param k
-	 * @return
-	 * Poojitha iska documentation karegi :)
+	 * @param k The size of the subset required.
+	 * @return All the possible subsets of size k for a given transaction.
+	 * This function creates a temporary arrayList for storing each subset and passes it onto another function breakdown()
+	 * along with transaction and structure to store the subsets.
 	 */
 	public ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
 		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
@@ -318,14 +324,16 @@ public class RuleMining {
 	}
 
 	/**
-	 * @param sub
-	 * @param trans
-	 * @param temp
-	 * @param low
-	 * @param high
-	 * @param point
-	 * @param k
-	 * iska bhi :D
+	 * @param sub Contains all the possible subsets of the transaction
+	 * @param trans Transaction
+	 * @param temp Temporary space to store a subset
+	 * @param low Starting point 
+	 * @param high Ending point
+	 * @param point Current position
+	 * @param k Size of subset
+	 * This function is first called by transBreakdown() and then recursively calls itself till the size of the required
+	 * subset is achieved.
+	 * It then adds the subset to the larger structure which stores all the subsets.
 	 */
 	public void breakdown(ArrayList<ArrayList<Integer>> sub, ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
@@ -343,6 +351,11 @@ public class RuleMining {
 		}
 	}
 
+	/**
+	 * @param minConf The Confidence threshold below which any rule would be pruned out for not having sufficient confidence
+	 * This function checks confidence of only those rules who have the element 'democrat' or 'republican' in them.
+	 * It passes such rules to the isConfRule() method
+	 */
 	public static void confidentRuleGen(double minConf){
 		for(int i=1;i<itemsets.size();i++)
 		{
@@ -354,6 +367,12 @@ public class RuleMining {
 		}
 	}
 
+	/**
+	 * @param set The Rule in the set format whose confidence is to be tested
+	 * @param minConf The Confidence threshold below which any rule would be pruned out for not having sufficient confidence
+	 * This function checks the confidence of each rule and adds only those rules to the global variable : <b> confidentRules </b> who have confidence more than the minimum threshold
+	 * This function also prints all these rules in sentence format by referencing the DataRef Class
+	 */
 	public static void isConfRule(TreeSet<Integer> set,double minConf){
 		DataRef dref = new DataRef();
 

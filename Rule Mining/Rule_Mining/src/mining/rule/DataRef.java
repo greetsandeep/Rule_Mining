@@ -1,10 +1,11 @@
 package mining.rule;
 
 public class DataRef {
-	/** An array of Strings which store the corresponding preference of the candidate given the index number*/
+	/** An array of Strings which store the corresponding preference of the candidate given the index number */
 	public String attrRef[] = new String[34];
 	/**
-	 * The constructor of the class where we declare all the stands that a candidate hass taken  
+	 * The constructor of the class where we declare all the stands that a candidate has taken  
+	 * This representation gives the stand taken by the candidate given the number in a set representation 
 	 */
 	DataRef() {
 		attrRef[0]   = "handicapped-infants=n";
