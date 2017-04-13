@@ -359,10 +359,7 @@ public class RuleMining {
 		else
 			temp.remove(33);		
 		
-		System.out.println("Set " + set + itemWithSupport.get(set));
-		System.out.println("Class " + temp + itemWithSupport.get(new TreeSet<Integer>(temp)));
-		
-		if(itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)) >= minConf)
+		if(itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp) ) >= minConf)
 		{
 			confidentRules.put(temp,categ);	
 		}

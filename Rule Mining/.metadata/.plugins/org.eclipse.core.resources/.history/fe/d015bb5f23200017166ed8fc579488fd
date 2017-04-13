@@ -35,12 +35,15 @@ public class RuleMining {
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
+//		for(int i=0;i<itemsets.size();i++)
+//			System.out.println(itemsets.get(i));
+
 		RuleMining ref = new RuleMining();
 
 		data_attr = attributeRepresentation(data);
 		for(int i=2;i<=16;i++)
 		{   
-
+			
 			HashTree root = new HashTree(16-i,0);
 			kminus1tok(ref,itemsets.get(i-2),i);
 			for(int j=0;j<itemsets.get(i-1).size();j++)
@@ -53,22 +56,44 @@ public class RuleMining {
 				for(int p=0;p<temp.size();p++)
 					root.updateSupportCount(temp.get(p));
 			}
+			System.out.println("Before : "+ i+" "+ itemsets.get(i-1).size());
 			for(int j=0;j<itemsets.get(i-1).size();j++)
 			{
 				System.out.println(itemsets.get(i-1).get(j));
 			}
 			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
+			System.out.println("After : "+ i+" "+ itemsets.get(i-1).size());
 			if(!ifUpdated)
 				break;
 		}
 
+//		for(int i=0;i<itemsets.size();i++)
+//		{
+//
+//			for(int j=0;j<itemsets.get(i).size();j++)
+//			{
+//				System.out.println(itemsets.get(i).get(j));
+//			}
+//			System.out.println(";;;;");
+//
+//		}
+
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" seconds");
+
+//		for (Map.Entry<TreeSet<Integer>, Double> entry : itemWithSupport.entrySet())
+//			System.out.println(entry.getKey() + "/" + entry.getValue());
+
 
 		/** All Confidence related stuff to be done here*/
 
 		confidentRuleGen(minConfidence);
+		
+		for (Map.Entry<TreeSet<Integer>, Integer> entry : confidentRules.entrySet())
+			System.out.println(entry.getKey() + "/" + entry.getValue());
 
+		
+		
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
@@ -233,7 +258,11 @@ public class RuleMining {
 				}
 			}		
 		}
+		System.out.println("Sets Size : "+sets.size());
+		System.out.println("Temp Size : "+temp.size());
+		//itemsets.add(k-1,temp);
 		itemsets.add(k-1,prepruning(ref,temp,k));
+		System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
 	}
 
 	/**
@@ -336,7 +365,7 @@ public class RuleMining {
 			temp.remove(point);
 		}
 	}
-
+	
 	public static void confidentRuleGen(double minConf){
 		for(int i=1;i<itemsets.size();i++)
 		{
@@ -347,7 +376,7 @@ public class RuleMining {
 			}
 		}
 	}
-
+	
 	public static void isConfRule(TreeSet<Integer> set,double minConf){
 		TreeSet<Integer>temp = new TreeSet<Integer>(set);
 		int categ = 33;
@@ -357,15 +386,10 @@ public class RuleMining {
 			categ = 32;
 		}
 		else
-			temp.remove(33);		
+			temp.remove(33);
 		
-		System.out.println("Set " + set + itemWithSupport.get(set));
-		System.out.println("Class " + temp + itemWithSupport.get(new TreeSet<Integer>(temp)));
-		
-		if(itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)) >= minConf)
-		{
+		if(itemWithSupport.get(set)/itemWithSupport.get(temp) >= minConf)
 			confidentRules.put(temp,categ);	
-		}
 	}
-
+	
 }		
