@@ -57,10 +57,10 @@ public class RuleMining {
 					root.updateSupportCount(temp.get(p));
 			}
 			System.out.println("Before : "+ i+" "+ itemsets.get(i-1).size());
-			for(int j=0;j<itemsets.get(i-1).size();j++)
-			{
-				System.out.println(itemsets.get(i-1).get(j));
-			}
+//			for(int j=0;j<itemsets.get(i-1).size();j++)
+//			{
+//				System.out.println(itemsets.get(i-1).get(j));
+//			}
 			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
 			System.out.println("After : "+ i+" "+ itemsets.get(i-1).size());
 			if(!ifUpdated)
@@ -258,11 +258,11 @@ public class RuleMining {
 				}
 			}		
 		}
-		System.out.println("Sets Size : "+sets.size());
-		System.out.println("Temp Size : "+temp.size());
+		//System.out.println("Sets Size : "+sets.size());
+		//System.out.println("Temp Size : "+temp.size());
 		//itemsets.add(k-1,temp);
 		itemsets.add(k-1,prepruning(ref,temp,k));
-		System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
+		//System.out.println("K-1: "+(k-1)+"   "+itemsets.get(k-1).size());
 	}
 
 	/**
