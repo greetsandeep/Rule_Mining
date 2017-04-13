@@ -308,9 +308,10 @@ public class RuleMining {
 
 	/**
 	 * @param transaction
-	 * @param k
-	 * @return
-	 * Poojitha iska documentation karegi :)
+	 * @param k The size of the subset required.
+	 * @return All the possible subsets of size k for a given transaction.
+	 * This function creates a temporary arrayList for storing each subset and passes it onto another function breakdown()
+	 * along with transaction and structure to store the subsets.
 	 */
 	public ArrayList<ArrayList<Integer>> tranBreakdown (ArrayList<Integer> transaction, int k){
 		ArrayList<ArrayList<Integer>> sub = new ArrayList<ArrayList<Integer>>();
@@ -321,14 +322,16 @@ public class RuleMining {
 	}
 
 	/**
-	 * @param sub
-	 * @param trans
-	 * @param temp
-	 * @param low
-	 * @param high
-	 * @param point
-	 * @param k
-	 * iska bhi :D
+	 * @param sub Contains all the possible subsets of the transaction
+	 * @param trans Transaction
+	 * @param temp Temporary space to store a subset
+	 * @param low Starting point 
+	 * @param high Ending point
+	 * @param point Current position
+	 * @param k Size of subset
+	 * This function is first called by transBreakdown() and then recursively calls itself till the size of the required
+	 * subset is achieved.
+	 * It then adds the subset to the larger structure which stores all the subsets.
 	 */
 	public void breakdown(ArrayList<ArrayList<Integer>> sub, ArrayList<Integer> trans, ArrayList<Integer> temp, int low, int high, int point, int k){
 		if(point==k){
