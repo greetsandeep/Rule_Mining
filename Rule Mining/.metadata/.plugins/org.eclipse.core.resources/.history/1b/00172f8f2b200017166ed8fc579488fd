@@ -64,10 +64,6 @@ public class RuleMining {
 
 		System.out.println("\n'*'*'*'\n");
 		
-		for(Map.Entry<TreeSet<Integer>,Double> entry: itemWithSupport.entrySet() ){
-			System.out.println(entry.getKey()+" : "+entry.getValue());
-		}
-		
 		System.out.println("\n\n\n\n\n");
 		/** All Confidence related stuff to be done here*/
 
@@ -237,9 +233,7 @@ public class RuleMining {
 				}
 			}		
 		}
-
 		itemsets.add(k-1,prepruning(ref,temp,k));
-
 	}
 
 	/**
