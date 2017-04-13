@@ -378,9 +378,6 @@ public class RuleMining {
 			for (Integer s : temp) {
 			    System.out.print(dref.attrRef[s]+" ,");
 			}
-			
-			conf = conf*100;
-			
 			System.out.print(" => "+ dref.attrRef[categ]);
 			System.out.printf("\t %.2f \n ",conf);
 		}

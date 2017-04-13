@@ -371,16 +371,13 @@ public class RuleMining {
 //		}
 //		
 //		
-		double conf = itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)); 
+		double conf = (itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)))*100; 
 		if( conf >= minConf)
 		{
 			confidentRules.put(temp,categ);
 			for (Integer s : temp) {
 			    System.out.print(dref.attrRef[s]+" ,");
 			}
-			
-			conf = conf*100;
-			
 			System.out.print(" => "+ dref.attrRef[categ]);
 			System.out.printf("\t %.2f \n ",conf);
 		}

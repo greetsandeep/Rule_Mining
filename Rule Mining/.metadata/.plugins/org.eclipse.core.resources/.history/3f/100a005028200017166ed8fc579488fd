@@ -360,17 +360,17 @@ public class RuleMining {
 		else
 			temp.remove(33);		
 		
-//		
-//		for(Map.Entry<TreeSet<Integer>,Integer> entry: confidentRules.entrySet())
-//		{
-//			for (Integer s : entry.getKey()) {
-//			    System.out.print(dref.attrRef[s]+" ,");
-//			}
-//			System.out.print(" => "+ dref.attrRef[entry.getValue()]);
-//			System.out.println();
-//		}
-//		
-//		
+		
+		for(Map.Entry<TreeSet<Integer>,Integer> entry: confidentRules.entrySet())
+		{
+			for (Integer s : entry.getKey()) {
+			    System.out.print(dref.attrRef[s]+" ,");
+			}
+			System.out.print(" => "+ dref.attrRef[entry.getValue()]);
+			System.out.println();
+		}
+		
+		
 		double conf = itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)); 
 		if( conf >= minConf)
 		{
@@ -378,11 +378,6 @@ public class RuleMining {
 			for (Integer s : temp) {
 			    System.out.print(dref.attrRef[s]+" ,");
 			}
-			
-			conf = conf*100;
-			
-			System.out.print(" => "+ dref.attrRef[categ]);
-			System.out.printf("\t %.2f \n ",conf);
 		}
 	}
 
