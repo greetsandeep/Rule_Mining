@@ -6,12 +6,14 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="republican" key="selection"/>
+		<item value="seconds" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="seconds"/>
+			<item value="system.out.print"/>
 			<item value="republican"/>
 			<item value="93.5"/>
 			<item value=";;;"/>
@@ -24,7 +26,7 @@
 		<item value="354" key="DIALOG_WIDTH"/>
 		<item value="1|Droid Serif|12.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="448" key="DIALOG_HEIGHT"/>
-		<item value="629" key="DIALOG_X_ORIGIN"/>
-		<item value="116" key="DIALOG_Y_ORIGIN"/>
+		<item value="664" key="DIALOG_X_ORIGIN"/>
+		<item value="266" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

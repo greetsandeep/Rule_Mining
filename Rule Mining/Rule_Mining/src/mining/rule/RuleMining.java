@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  * @author Sandeep,Snehal,Poojitha
- *	AIM : To Use hash tree and come up with interesting association rules by using Apriori algorithm.
+ * AIM : To Use hash tree and come up with interesting association rules by using Apriori algorithm.
  */
 public class RuleMining {
 	/** An ArrayList of Integer Arrays which store the stands of a candidate in a binary format*/
@@ -23,7 +23,6 @@ public class RuleMining {
 	/** A HashMap which contains all the rules which have confidence higher than the threshold */
 	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
 	
-	
 	public static void main(String args[]){
 	
 		try{
@@ -40,7 +39,6 @@ public class RuleMining {
 
 		long startTime = System.currentTimeMillis();
 
-		/* Program Begins */
 		DataRef dref = new DataRef(); /** An object of DataRef Class */
 
 		/** Contains all the sets of one Frequent Items based on the given minimum Support Value*/
@@ -77,8 +75,8 @@ public class RuleMining {
 
 		
 		long finalStopTime = System.currentTimeMillis();
-		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" seconds");
-		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" seconds");
+		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" milliseconds");
+		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" milliseconds");
 		in.close();
 	}
 
@@ -363,6 +361,8 @@ public class RuleMining {
 			{
 				if(itemsets.get(i).get(j).contains(32)||itemsets.get(i).get(j).contains(33))
 					isConfRule(itemsets.get(i).get(j),minConf);
+
+				candidatesForConfidence(itemsets.get(i).get(j));
 			}
 		}
 	}
@@ -374,8 +374,6 @@ public class RuleMining {
 	 * This function also prints all these rules in sentence format by referencing the DataRef Class
 	 */
 	public static void isConfRule(TreeSet<Integer> set,double minConf){
-		DataRef dref = new DataRef();
-
 		TreeSet<Integer>temp = new TreeSet<Integer>(set);
 		int categ = 33;
 		if(temp.contains(32))
@@ -384,21 +382,55 @@ public class RuleMining {
 			categ = 32;
 		}
 		else
-			temp.remove(33);		
+			temp.remove(33);	
 
-		double conf = itemWithSupport.get(set)/itemWithSupport.get(new TreeSet<Integer>(temp)); 
-		if( conf >= minConf)
-		{
+		double conf = itemWithSupport.get(set)/itemWithSupport.get(temp); 
+		
+		if(conf >= minConf)
 			confidentRules.put(temp,categ);
-			for (Integer s : temp) {
-				System.out.print(dref.attrRef[s]+" ,");
-			}
-
-			conf = conf*100;
-
-			System.out.print(" => "+ dref.attrRef[categ]);
-			System.out.printf("\t %.2f \n ",conf);
-		}
 	}
+	
+	/**
+	 * @param originalSet The Set of which we have to find all the possible Sub sets
+	 * @return All the possible sub sets of the given Set including null set and the set itself
+	 */
+	public static Set<Set<Integer>> powerSet(Set<Integer> originalSet) {
+        Set<Set<Integer>> sets = new HashSet<Set<Integer>>();
+        if (originalSet.isEmpty()) {
+            sets.add(new HashSet<Integer>());
+            return sets;
+        }
+        List<Integer> list = new ArrayList<Integer>(originalSet);
+        Integer head = list.get(0);
+        Set<Integer> rest = new HashSet<Integer>(list.subList(1, list.size()));
+        
+        for (Set<Integer> set : powerSet(rest)) {
+            Set<Integer> newSet = new HashSet<Integer>();
+            newSet.add(head);
+            newSet.addAll(set);
+    		sets.add(set);
+    		sets.add(newSet);
+        }
 
+        return sets;
+    }
+	
+	/**
+	 * @param rule The set currently under consideration
+	 * @return Returns the possible candidates for confidence pruning. Eliminates Null gives all and vice versa rules.
+	 */
+	public static HashMap<TreeSet<Integer>,TreeSet<Integer>> candidatesForConfidence(TreeSet<Integer> rule){
+		HashMap<TreeSet<Integer>,TreeSet<Integer>> candidates = new HashMap<TreeSet<Integer>,TreeSet<Integer>>();
+		Set<Set<Integer>> temp = powerSet(rule);
+
+		for (Set<Integer> s : temp) {
+		    if(!(s.size()==0 || s.size()==rule.size()))
+		    {
+		    	Set<Integer> tempSet = new HashSet<Integer>(rule);
+		    	tempSet.removeAll(s);
+		    	candidates.put(new TreeSet<Integer>(s),new TreeSet<>(tempSet));
+		    }
+		}
+		return candidates;
+	}
 }		
