@@ -21,12 +21,12 @@ public class RuleMining {
 	public static HashMap<TreeSet<Integer>, Double> itemWithSupport = new HashMap<TreeSet<Integer>,Double>();
 	
 	/** A HashMap which contains all the rules which have confidence higher than the threshold */
-	public static HashMap<TreeSet<Integer>, Integer> confidentRules = new HashMap<TreeSet<Integer>,Integer>();
+	public static HashMap<ArrayList<TreeSet<Integer>>, Double> confidentRules = new HashMap<ArrayList<TreeSet<Integer>>, Double>();
 	
 	public static void main(String args[]){
 	
 		try{
-			inputHandle("sample.txt",data);
+			inputHandle("dataFile.txt",data);
 		}catch(Exception e){
 			System.out.println("\nError In file Reading " + e);
 		}
@@ -45,7 +45,7 @@ public class RuleMining {
 		ArrayList<TreeSet<Integer>> oneFreq = oneFrequentItemSet(data,dref,minSupport);
 		itemsets.add(0,oneFreq);
 		RuleMining ref = new RuleMining();
-
+		
 		data_attr = attributeRepresentation(data);
 		for(int i=2;i<=16;i++)
 		{   
@@ -63,17 +63,21 @@ public class RuleMining {
 			}
 
 			boolean ifUpdated = root.updateItemsets(minSupport,data.size());
+			
 			if(!ifUpdated)
 				break;
 		}
-
+		
+		/*for(Map.Entry<TreeSet<Integer>, Double> e: itemWithSupport.entrySet()){
+			System.out.println(e.getKey()+" "+e.getValue());
+		}*/
+		
 		long supportStopTime = System.currentTimeMillis();
 		System.out.println("\nThe Time elapsed to find all frequent Item Subsets: " + (supportStopTime-startTime)+" milliseconds\n");
 
 
 		confidentRuleGen(minConfidence);
-
-		
+				
 		long finalStopTime = System.currentTimeMillis();
 		System.out.println("The Time elapsed for confidence pruning:  " + (finalStopTime-supportStopTime)+" milliseconds");
 		System.out.println("The Total Time for generating all rules: " + (finalStopTime-startTime)+" milliseconds");
@@ -173,9 +177,10 @@ public class RuleMining {
 					supportValues[j]++;
 			}
 		}
-
-		for(int i=0; i< supportValues.length;i++)
+		
+		for(int i=0; i< supportValues.length;i++){
 			supportValues[i] = supportValues[i]/data.size();
+		}
 
 		for(int i=0;i< supportValues.length;i++)
 		{
@@ -359,10 +364,10 @@ public class RuleMining {
 		{
 			for(int j=0;j<itemsets.get(i).size();j++)
 			{
-				if(itemsets.get(i).get(j).contains(32)||itemsets.get(i).get(j).contains(33))
-					isConfRule(itemsets.get(i).get(j),minConf);
-
-				candidatesForConfidence(itemsets.get(i).get(j));
+				HashMap<TreeSet<Integer>,TreeSet<Integer>> can = candidatesForConfidence(itemsets.get(i).get(j));
+				for(Map.Entry<TreeSet<Integer>, TreeSet<Integer>> e : can.entrySet()){
+					isConfRule(e,minConf);
+				}
 			}
 		}
 	}
@@ -373,21 +378,33 @@ public class RuleMining {
 	 * This function checks the confidence of each rule and adds only those rules to the global variable : <b> confidentRules </b> who have confidence more than the minimum threshold
 	 * This function also prints all these rules in sentence format by referencing the DataRef Class
 	 */
-	public static void isConfRule(TreeSet<Integer> set,double minConf){
-		TreeSet<Integer>temp = new TreeSet<Integer>(set);
-		int categ = 33;
-		if(temp.contains(32))
-		{
-			temp.remove(32);
-			categ = 32;
-		}
-		else
-			temp.remove(33);	
-
-		double conf = itemWithSupport.get(set)/itemWithSupport.get(temp); 
+	public static void isConfRule(Map.Entry<TreeSet<Integer>, TreeSet<Integer>> e, double minConf){
+		TreeSet<Integer> lhs = new TreeSet<Integer>(e.getKey());
+		TreeSet<Integer> rhs = new TreeSet<Integer>(e.getValue());
+ 		TreeSet<Integer> union = new TreeSet<Integer>();
+ 		union.addAll(lhs);
+ 		union.addAll(rhs);
+ 		//System.out.println(union+" "+lhs);
+		double conf = itemWithSupport.get(union)/itemWithSupport.get(lhs); 
 		
-		if(conf >= minConf)
-			confidentRules.put(temp,categ);
+		DataRef dref = new DataRef();
+		
+		ArrayList<TreeSet<Integer>> temp = new ArrayList<TreeSet<Integer>>();
+		temp.add(lhs);
+		temp.add(rhs);
+		
+		if(conf >= minConf){
+			confidentRules.put(temp, conf);
+			for(Integer i:temp.get(0)){
+		    	System.out.print(dref.attrRef[i]+" ");
+		    }
+			System.out.print(" ---> ");
+			for(Integer i:temp.get(1)){
+		    	System.out.print(dref.attrRef[i]+" ");
+		    }
+			System.out.println(" "+conf);
+			
+		}
 	}
 	
 	/**
@@ -428,7 +445,7 @@ public class RuleMining {
 		    {
 		    	Set<Integer> tempSet = new HashSet<Integer>(rule);
 		    	tempSet.removeAll(s);
-		    	candidates.put(new TreeSet<Integer>(s),new TreeSet<>(tempSet));
+		    	candidates.put(new TreeSet<Integer>(s),new TreeSet<Integer>(tempSet));
 		    }
 		}
 		return candidates;
