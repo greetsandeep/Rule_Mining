@@ -373,7 +373,7 @@ public class RuleMining {
 	}
 
 	/**
-	 * @param set The Rule in the set format whose confidence is to be tested
+	 * @param e The Rule in the set format whose confidence is to be tested
 	 * @param minConf The Confidence threshold below which any rule would be pruned out for not having sufficient confidence
 	 * This function checks the confidence of each rule and adds only those rules to the global variable : <b> confidentRules </b> who have confidence more than the minimum threshold
 	 * This function also prints all these rules in sentence format by referencing the DataRef Class
@@ -384,7 +384,6 @@ public class RuleMining {
  		TreeSet<Integer> union = new TreeSet<Integer>();
  		union.addAll(lhs);
  		union.addAll(rhs);
- 		//System.out.println(union+" "+lhs);
 		double conf = itemWithSupport.get(union)/itemWithSupport.get(lhs); 
 		
 		DataRef dref = new DataRef();
