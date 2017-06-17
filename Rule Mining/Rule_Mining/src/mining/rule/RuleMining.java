@@ -93,7 +93,7 @@ public class RuleMining {
 	public static void inputHandle(String filename,ArrayList<int[]> data)throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		String line=null;
-		while( (line=br.readLine()) != null) {
+		while((line=br.readLine()) != null) {
 			StringTokenizer st = new StringTokenizer(line,",");
 			int row[] = new int[17];
 			while(st.hasMoreTokens()){
